@@ -45,34 +45,52 @@ function Comment(props) {
 }
 
 class CommentInput extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state        = {comment: ''}
+    this.maxInput     = props.maxInput || 512
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleChange(e) {
+    if (e.target.value.length <= this.maxInput) {
+      this.setState({comment: e.target.value})
+    } else {
+      e.preventDefault()
+    }
+  }
+
   render() {
     return (
-<article className="media">
-  <figure className="media-left">
-    <p className="image is-64x64">
-      <img src="user.png" className='rounded' />
-    </p>
-  </figure>
-  <div className="media-content">
-    <div className="field">
-      <p className="control">
-        <textarea className="textarea" placeholder="Add a comment..."></textarea>
-      </p>
-    </div>
-    <nav className="level">
-      <div className="level-left">
-        <div className="level-item">
-          <a className="button is-dark">Submit</a>
+      <article className="media">
+        <figure className="media-left">
+          <p className="image is-64x64">
+            <img src="user.png" className='rounded' />
+          </p>
+        </figure>
+        <div className="media-content">
+          <div className="field">
+            <p className="control">
+              <textarea
+                className="textarea"
+                placeholder="Add a comment..."
+                onChange={this.handleChange}
+                value={this.state.comment} />
+            </p>
         </div>
+        <nav className="level">
+          <div className="level-left">
+            <div className="level-item">
+              <a className="button is-dark">Submit</a>
+            </div>
+          </div>
+          <div className="level-right">
+            <div className="level-item">{this.state.comment.length} / {this.maxInput}</div>
+          </div>
+        </nav>
       </div>
-      <div className="level-right">
-        <div className="level-item">
-          0 / 1024
-        </div>
-      </div>
-    </nav>
-  </div>
-</article>
+    </article>
 )
   }
 }

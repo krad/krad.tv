@@ -1,29 +1,42 @@
-import React, { Component } from 'react'
-import Comments from './comments'
+import React, { Component } from 'react';
+import Video from '../../components/Player/video'
+import Comments from '../../components/comments'
+import { Button } from '../../components/Buttons/button'
 import moment from 'moment'
-import './player.css'
+
 
 const broadcast = {"userID":"8ca21331-9884-4231-994f-aaa5492ef340",
                    "updatedAt":1525978973061,
                    "broadcastID":"17382146-1e78-4ab5-bcdd-b57c59376259",
                    "status":"DONE",
-              "thumbnails":["0.jpg","1.jpg"],
-              "createdAt":1525978733409,
-              "bid":"17382146-1e78-4ab5-bcdd-b57c59376259",
-              "title":"Another day on the tractor",
-              "user":{
-                "userID":"8ca21331-9884-4231-994f-aaa5492ef340",
-                "lastName":"Gray",
-                "updatedAt":1521345080836,
-                "createdAt":1520663413968,
-                "username":"melgray",
-                "firstName":"Mel",
-                "isVerified":true
-              },
-              "views":7,
-              "opinion":"like"}
+                   "thumbnails":["https://doxvmry0pd5ic.cloudfront.net/17382146-1e78-4ab5-bcdd-b57c59376259/0.jpg",
+                                 "https://doxvmry0pd5ic.cloudfront.net/17382146-1e78-4ab5-bcdd-b57c59376259/1.jpg"],
+                  "createdAt":1525978733409,
+                  "bid":"17382146-1e78-4ab5-bcdd-b57c59376259",
+                  "title":"Another day on the tractor",
+                  "user":{
+                    "userID":"8ca21331-9884-4231-994f-aaa5492ef340",
+                    "lastName":"Guy",
+                    "updatedAt":1521345080836,
+                    "createdAt":1520663413968,
+                    "username":"someguy",
+                    "firstName":"Some",
+                    "isVerified":true
+                  },
+                  "views":7,
+                  "opinion":"like"}
 
-export default class Player extends Component {
+export default class Broadcast extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {broadcast: undefined}
+  }
+
+  componentDidMount() {
+    this.setState({broadcast: broadcast})
+  }
+
   render() {
     return (
       <div id='watch' className='container'>
@@ -46,16 +59,10 @@ function BroadcastInfo(props) {
           </div>
         </div>
         <hr />
-        <UserInfo {...props}/>
+        <UserInfo {...props.user}/>
         <hr />
       <Comments id={props.bid} />
     </section>
-  )
-}
-
-function Video(props) {
-  return (
-    <video className='player'></video>
   )
 }
 
@@ -85,7 +92,7 @@ function UserInfo(props) {
   return (
     <section className='card-content'>
       <div className='container'>
-        <UserProfile />
+        <UserProfile {...props} />
       </div>
     </section>
   )
@@ -93,8 +100,8 @@ function UserInfo(props) {
 
 function UserProfile(props) {
   return (
-    <div className='x'>
-      <div className='level'>
+    <div>
+      <div className='level broadcast-user-info'>
         <div className='level-left'>
           <div className='level-item'>
             <figure className='image is-48x48'>
@@ -104,8 +111,8 @@ function UserProfile(props) {
 
           <div className='level-item'>
             <ul>
-              <li><p><a href='#' className='title is-6'>Mel Gray</a></p></li>
-              <li><p><a href='#' className='subtitle is-6'>@melgray</a></p></li>
+              <li><p><a href='#' className='title is-6'>{props.firstName} {props.lastName}</a></p></li>
+              <li><p><a href='#' className='subtitle is-6'>@{props.username}</a></p></li>
             </ul>
           </div>
         </div>
@@ -133,34 +140,4 @@ function LevelItem(props) {
       {props.children}
     </div>
   )
-}
-
-
-
-class Button extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {isLoading: false}
-    this.style = 'button is-dark'
-
-    this.icons = {
-      'Like': 'fas fa-thumbs-up',
-      'Dislike': 'fas fa-thumbs-down',
-      'Report': 'fas fa-flag'
-    }
-  }
-
-  render() {
-
-    const iconClass = this.icons[this.props.name] || 'fas'
-
-    return (
-      <a className='button is-dark'>
-        <span className='icon is-small'>
-          <i className={iconClass}></i>
-        </span>
-        <span>{this.props.name}</span>
-      </a>
-    )
-  }
 }

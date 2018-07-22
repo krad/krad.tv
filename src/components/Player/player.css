@@ -1,0 +1,64 @@
+.player-wrapper {
+  background:#000;
+  position: relative;
+}
+
+.player {
+  width: 100%;
+  height: auto;
+  background:#000;
+  display: block;
+
+}
+
+.player-controls {
+  position: absolute;
+  width:100%;
+  height:48px;
+  bottom:0;
+  margin:0;
+  padding:0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.player-progress {
+  width: 100%;
+  height: 2px;
+  margin:0;
+  padding:0;
+}
+
+.progress-bar {
+  position: absolute;
+  top: -2;
+  width: 100%;
+  margin:0;
+  padding:0;
+  height: 2px;
+  border: 0 none;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.play-progress::-webkit-progress-bar { background: transparent; }
+.play-progress::-webkit-progress-value { background: #209cee; }
+
+.download-progress::-webkit-progress-bar { background: #aaa; }
+.download-progress::-webkit-progress-value { background:#ddd; }
+
+.player-button {
+  padding: 16px;
+  color: #fff;
+  border-style: solid;
+  background: rgba(0, 0, 0, 0.0);
+  border-color: rgba(0, 0, 0, 0.5);
+  border-width: 0px 0px 0px 1px;
+  outline: none;
+}
+
+.player-button:last-child {
+  border-width: 0px 1px 0px 1px !important;
+}
