@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
+import LoadingIndicator from '../../components/Loaders/spinner'
 import './player.css'
-import './loader.css'
 
 class Video extends Component {
   render() {
     return (
       <div className='player-wrapper'>
-        <PlayerLoader />
+        <LoadingIndicator />
         <video className='player' poster={this.props.previewThumbnail}></video>
         <PlayerControls />
       </div>
@@ -84,25 +84,6 @@ class PlayerControls extends Component {
       </div>
     )
   }
-}
-
-function PlayerLoader(props) {
-  return (
-    <div className="sk-fading-circle">
-      <div className="sk-circle1 sk-circle"></div>
-      <div className="sk-circle2 sk-circle"></div>
-      <div className="sk-circle3 sk-circle"></div>
-      <div className="sk-circle4 sk-circle"></div>
-      <div className="sk-circle5 sk-circle"></div>
-      <div className="sk-circle6 sk-circle"></div>
-      <div className="sk-circle7 sk-circle"></div>
-      <div className="sk-circle8 sk-circle"></div>
-      <div className="sk-circle9 sk-circle"></div>
-      <div className="sk-circle10 sk-circle"></div>
-      <div className="sk-circle11 sk-circle"></div>
-      <div className="sk-circle12 sk-circle"></div>
-  </div>
-  )
 }
 
 export default Video

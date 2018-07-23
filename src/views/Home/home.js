@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import LoadingIndicator from '../../components/Loaders/bubbles'
 import axios from 'axios'
 import './home.css'
 
@@ -117,16 +118,6 @@ function UserDetails(props) {
         <p><a href={props.links.channel} className='subtitle is-6'>@{props.username}</a></p>
       </div>
 
-    </div>
-  )
-}
-
-function LoadingIndicator() {
-  return (
-    <div className="spinner">
-      <div className="bounce1"></div>
-      <div className="bounce2"></div>
-      <div className="bounce3"></div>
     </div>
   )
 }
