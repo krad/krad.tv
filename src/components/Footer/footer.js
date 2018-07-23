@@ -1,5 +1,4 @@
 import React from 'react'
-import { BrowserRouter as Link } from 'react-router-dom'
 import './footer'
 
 function Footer(props) {
@@ -31,15 +30,15 @@ function Column(props) {
   )
 }
 
-function ViewersColumn(props) {
-  return (
-    <Column>
-      <h3 className='title is-5'>Viewers</h3>
-      <a className='subtitle is-6'>About krad.tv</a>
-    </Column>
-  )
-}
-
+// function ViewersColumn(props) {
+//   return (
+//     <Column>
+//       <h3 className='title is-5'>Viewers</h3>
+//       <a className='subtitle is-6'>About krad.tv</a>
+//     </Column>
+//   )
+// }
+//
 function OpenSourceColumn(props) {
   return (
     <Column>
