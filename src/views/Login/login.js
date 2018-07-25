@@ -1,7 +1,25 @@
 import React, { Component } from 'react';
+import { Router } from 'react-router-dom'
+
 import MiddleBox from '../../components/MiddleBox/middle-box'
 import { EmailInput, PasswordInput, validateEmail } from '../../components/AuthFields/auth-fields'
+import axios from 'axios'
 import './login.css'
+
+const instance = axios.create({
+  baseURL: 'http://0.0.0.0:3000/',
+  timeout: 2000,
+  transformResponse: (data) => {
+    return JSON.parse(data)
+  }
+})
+
+const responseInterceptor = (response) => {
+  return Promise.resolve(response)
+}
+const errorInterceptor = (error) => Promise.reject(error.response)
+instance.interceptors.response.use(responseInterceptor, errorInterceptor)
+
 
 class Login extends Component {
   constructor(props) {
@@ -34,6 +52,19 @@ class Login extends Component {
     e.preventDefault()
     if (this.state.ready) {
       this.setState({loading: true})
+      const payload = {
+        email: this.state.email,
+        password: this.state.password
+      }
+      instance.post('/login', payload).then(res => {
+        this.props.history.push(res.headers.location)
+      }).catch(err => {
+        let msg
+        if (err.data && err.data.error) { msg = err.data.error }
+        else { msg = 'Something went wrong '}
+        this.setState({loading: false, error: msg})
+      })
+
     }
   }
 
@@ -44,12 +75,12 @@ class Login extends Component {
         <LoginForm onSubmit={this.handleSubmit}>
           <EmailInput onChange={this.handleChange} value={this.state.email} />
           <PasswordInput onChange={this.handleChange} value={this.state.password}/>
-          <a
-            onClick={this.handleSubmit}
+          <button
+            type='submit'
             className={loadingClass(this.state.loading)}
             disabled={!this.state.ready}>
             Login
-          </a>
+          </button>
           <p className='help is-danger has-text-centered'>{this.state.error}</p>
         </LoginForm>
       </MiddleBox>

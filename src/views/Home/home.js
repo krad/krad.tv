@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {  Link } from 'react-router-dom'
 import LoadingIndicator from '../../components/Loaders/bubbles'
 import axios from 'axios'
 import './home.css'
@@ -70,12 +71,15 @@ function BroadcastCard(props) {
 }
 
 function BroadcastPoster(props) {
+  const stream        = props.stream || {}
+  const previewImage  = stream.previewImage || 'Film.png'
+  const url           = '/watch/' + props.id
   return (
     <div className='card-image'>
       <figure className='image is-16by9'>
-        <a href={props.url}>
-          <img src={props.stream.previewImage} alt='stream preview'/>
-        </a>
+        <Link to={url}>
+          <img className='previewImage' src={previewImage} alt='stream preview'/>
+        </Link>
       </figure>
     </div>
   )
@@ -91,31 +95,34 @@ function BroadcastInfo(props) {
 }
 
 function BroadcastDetails(props) {
+  const title = props.title
+  const url   = '/watch/' + props.id
   return (
     <div className='media'>
       <div className='media-content'>
-        <a href={props.url}>
-          <p className='title is-6'>{props.title}</p>
-        </a>
+        <Link to={url}>
+          <p className='broadcastTitle title is-6'>{title}</p>
+        </Link>
       </div>
     </div>
   )
 }
 
 function UserDetails(props) {
+
+  const profileImage = props.profileImage || 'User.png'
+
   return (
     <div className='media'>
       <div className='media-left'>
         <figure className='image is-48x48'>
-          <a href={props.links.channel}>
-            <img src={props.profileImage} alt={[props.username, "profile image"].join(' ')}/>
-          </a>
+          <img src={profileImage} alt={[props.username, "profile image"].join(' ')}/>
         </figure>
       </div>
 
       <div className='media-content'>
-        <p><a href={props.links.channel} className='title is-6'>{props.name}</a></p>
-        <p><a href={props.links.channel} className='subtitle is-6'>@{props.username}</a></p>
+        <p><a className='title is-6'>{props.name}</a></p>
+        <p><a className='subtitle is-6'>@{props.username}</a></p>
       </div>
 
     </div>

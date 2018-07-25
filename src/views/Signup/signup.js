@@ -14,15 +14,11 @@ const instance = axios.create({
   }
 })
 
-// const responseInterceptor = (response) => {
-//   if (response.headers.location) {
-//     return axios.get(response.headers.location)
-//   }
-//
-//   return Promise.resolve(response)
-// }
-// const errorInterceptor = (error) => Promise.reject(error.response)
-// instance.interceptors.response.use(responseInterceptor, errorInterceptor)
+const responseInterceptor = (response) => {
+  return Promise.resolve(response)
+}
+const errorInterceptor = (error) => Promise.reject(error.response)
+instance.interceptors.response.use(responseInterceptor, errorInterceptor)
 
 
 class Signup extends Component {
@@ -69,8 +65,10 @@ class Signup extends Component {
       instance.post('/signup', payload).then(res => {
           this.props.history.push(res.headers.location)
       }).catch(err => {
-          console.log(err);
-          this.setState({loading: false, error: err})
+        let msg
+        if (err.data && err.data.error) { msg = err.data.error }
+        else { msg = 'Something went wrong '}
+        this.setState({loading: false, error: msg, ready: false})
       })
     }
   }
@@ -88,12 +86,12 @@ class Signup extends Component {
             value={this.state.passwordConfirm}
             label="Confirm Password"
             name="passwordConfirm"/>
-          <a
-            onClick={this.handleSubmit}
+          <button
+            type='submit'
             className={loadingClass(this.state.loading)}
             disabled={!this.state.ready}>
             Signup
-          </a>
+          </button>
           <p className='help is-danger has-text-centered'>{this.state.error}</p>
         </SignupForm>
       </MiddleBox>

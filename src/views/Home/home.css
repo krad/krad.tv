@@ -1,0 +1,11 @@
+.broadcastTitle {
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.previewImage {
+  background: #d8d8d8;
+  object-fit: contain;
+}
