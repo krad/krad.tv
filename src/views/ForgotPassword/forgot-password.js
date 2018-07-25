@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MiddleBox from '../../components/MiddleBox/middle-box'
-import { EmailInput } from '../../components/AuthFields/auth-fields'
+import { EmailInput, validateEmail } from '../../components/AuthFields/auth-fields'
 
 class ForgotPassword extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class ForgotPassword extends Component {
     const name  = e.target.name
     const value = e.target.value
     let newState = Object.assign(this.state, {[name]: value})
-    if (validEmail(newState.email)) {
+    if (validateEmail(newState.email)) {
       newState.ready = true
     } else {
       newState.ready = false
@@ -54,12 +54,6 @@ class ForgotPassword extends Component {
       </div>
     )
   }
-}
-
-
-const validEmail = (email) => {
-  var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(String(email).toLowerCase())
 }
 
 const loadingClass = (loading) => {

@@ -1,51 +1,59 @@
 import React, { Component } from 'react';
-import Video from '../../components/Player/video'
-import Comments from '../../components/comments'
-import { LikeBroadcastButton, DislikeBroadcastButton, ReportBroadcastButton, SubscribeButton } from '../../components/Buttons/opinion-button'
+import axios from 'axios'
 import moment from 'moment'
 
-const broadcast = {
-  "id": "17382146-1e78-4ab5-bcdd-b57c59376259",
-  "updatedAt": 1525978973061,
-  "createdAt": 1525978733409,
-  "title": "UI Mockup Stream",
-  "previewThumbnail": "https://doxvmry0pd5ic.cloudfront.net/17382146-1e78-4ab5-bcdd-b57c59376259/0.jpg",
-  "views": 7,
-  "status": "VOD",
-  "playlist": "https://krad.tv/example.playlist.m3u8",
-  "user": {
-    id: "8ca21331-9884-4231-994f-aaa5492ef340",
-    "name": "Some Guy",
-    "username": "melgray",
-    "avatar": "http://localhost:3001/user.png",
-    _links: {
-      profile: "/profile/8ca21331-9884-4231-994f-aaa5492ef340"
-    }
+import Video from '../../components/Player/video'
+import Comments from '../../components/Comments/comments'
+import { LikeBroadcastButton, DislikeBroadcastButton, ReportBroadcastButton, SubscribeButton } from '../../components/Buttons/opinion-button'
+import LoadingIndicator from '../../components/Loaders/bubbles'
+
+
+const instance = axios.create({
+  baseURL: 'http://0.0.0.0:3000/',
+  timeout: 2000,
+  transformResponse: (data) => {
+    return JSON.parse(data)
   }
-}
+})
 
 export default class Broadcast extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {broadcast: undefined}
+    this.state = {broadcast: undefined, loading: false}
   }
 
   componentDidMount() {
-    this.setState({broadcast: broadcast})
+    this.setState({loading: true})
+    instance.get('/broadcasts/1')
+    .then(res => {
+      this.setState({loading: false, error: undefined, broadcast: res.data})
+    }).catch(err => {
+      this.setState({loading: false, error: err})
+    })
   }
 
   render() {
+    if (this.state.loading) {
+      return <LoadingIndicator />
+    }
+
+    if (this.state.error) {
+      return <ErrorMessage error={this.state.error} />
+    }
+
+    const broadcast = this.state.broadcast
     return (
       <div id='watch' className='container'>
-        <Video {...broadcast} />
-        <BroadcastInfo {...broadcast}/>
+        <Video {...this.state.broadcast} />
+        <BroadcastInfo {...this.state.broadcast}/>
       </div>
     )
   }
 }
 
 function BroadcastInfo(props) {
+  console.log(props);
   return (
     <section className='section'>
         <div className='level'>
@@ -58,6 +66,7 @@ function BroadcastInfo(props) {
         </div>
         <hr />
         <UserInfo {...props.user}/>
+        <Details {...props} />
         <hr />
       <Comments id={props.bid} />
     </section>
@@ -68,14 +77,14 @@ function BroadcastDetails(props) {
   return (
     <div>
       <p className='title'>{props.title}</p>
-      <p className='subtitle'>{moment(broadcast.createdAt).fromNow()}</p>
-      <p className='subtitle'>{props.views} views</p>
+      <p className='subtitle'>{moment(props.createdAt).fromNow()}</p>
+      <p className='subtitle'>{props.viewCount > 0 ? props.viewCount.toLocaleString() + ' views' : '' }</p>
     </div>
   )
 }
 
 class BroadcastControls extends Component {
-  
+
   constructor(props) {
     super(props)
     this.state        = {selected: undefined}
@@ -151,7 +160,6 @@ function UserProfile(props) {
           <span className='level-item'><SubscribeButton /></span>
         </div>
       </div>
-      <Details />
     </div>
   )
 }
@@ -169,5 +177,14 @@ function LevelItem(props) {
     <div className='level-item has-text-centered'>
       {props.children}
     </div>
+  )
+}
+
+function ErrorMessage(props) {
+  return (
+    <section className='section'>
+      <h1 className='title'>Something went wrong.</h1>
+      <h3 className='subtitle'>Ooohhh noooooo!!!</h3>
+    </section>
   )
 }

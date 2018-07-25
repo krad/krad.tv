@@ -26,13 +26,18 @@ class PlayerControls extends Component {
     this.handleDownloadProgress = this.handleDownloadProgress.bind(this)
     this.handlePlayProgress     = this.handlePlayProgress.bind(this)
 
-    setInterval(() => {
+    this.downloadProgress = setInterval(() => {
       this.handleDownloadProgress(this.state.downloadProgress+2)
     }, 500)
 
-    setInterval(() => {
+    this.playProgress = setInterval(() => {
       this.handlePlayProgress(this.state.playProgress+1)
     }, 1000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.downloadProgress)
+    clearInterval(this.playProgress)
   }
 
   handleDownloadProgress(progress) {

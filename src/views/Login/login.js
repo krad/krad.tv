@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MiddleBox from '../../components/MiddleBox/middle-box'
-import { EmailInput, PasswordInput } from '../../components/AuthFields/auth-fields'
+import { EmailInput, PasswordInput, validateEmail } from '../../components/AuthFields/auth-fields'
 import './login.css'
 
 class Login extends Component {
@@ -21,7 +21,7 @@ class Login extends Component {
     const value = e.target.value
 
     let newState = Object.assign(this.state, {[name]: value})
-    if (validEmail(newState.email) && newState.password.length > 0) {
+    if (validateEmail(newState.email) && newState.password.length > 0) {
       newState.ready = true
     } else {
       newState.ready = false
@@ -59,11 +59,6 @@ class Login extends Component {
   }
 }
 
-
-const validEmail = (email) => {
-  var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(String(email).toLowerCase())
-}
 
 const loadingClass = (loading) => {
   if (loading) {

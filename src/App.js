@@ -8,6 +8,7 @@ import Broadcast from './views/Broadcast/broadcast'
 import Login from './views/Login/login'
 import Signup from './views/Signup/signup'
 import ForgotPassword from './views/ForgotPassword/forgot-password'
+import ManageProfile from './views/ManageProfile/manage-profile'
 import Help from './views/help'
 import Terms from './views/terms'
 import Privacy from './views/privacy'
@@ -19,13 +20,14 @@ class App extends Component {
     return (
       <div>
         <Header />
-        <main className='container App-content'>
+        <main className='container '>
         <Router>
           <Switch>
-            <Route exact path ='/' component={Signup} />
+            <Route exact path ='/' component={Home} />
             <Route path='/watch/:broadcastID' component={Broadcast} />
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
+            <Route path='/profile' component={ManageProfile} />
             <Route path='/forgot-password' component={ForgotPassword}/>
             <Route path='/help' component={Help} />
             <Route path='/tos' component={Terms} />

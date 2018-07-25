@@ -74,7 +74,7 @@ function BroadcastPoster(props) {
     <div className='card-image'>
       <figure className='image is-16by9'>
         <a href={props.url}>
-          <img src={props.stream.previewImage} />
+          <img src={props.stream.previewImage} alt='stream preview'/>
         </a>
       </figure>
     </div>

@@ -1,13 +1,36 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import { Router } from 'react-router-dom'
+
 import MiddleBox from '../../components/MiddleBox/middle-box'
-import { EmailInput, PasswordInput } from '../../components/AuthFields/auth-fields'
+import { UsernameField, EmailInput, PasswordInput, validateEmail } from '../../components/AuthFields/auth-fields'
+import axios from 'axios'
 import './signup.css'
+
+const instance = axios.create({
+  baseURL: 'http://0.0.0.0:3000/',
+  timeout: 2000,
+  transformResponse: (data) => {
+    return JSON.parse(data)
+  }
+})
+
+// const responseInterceptor = (response) => {
+//   if (response.headers.location) {
+//     return axios.get(response.headers.location)
+//   }
+//
+//   return Promise.resolve(response)
+// }
+// const errorInterceptor = (error) => Promise.reject(error.response)
+// instance.interceptors.response.use(responseInterceptor, errorInterceptor)
+
 
 class Signup extends Component {
   constructor(props) {
     super(props)
     this.state = {loading: false,
                   email:'',
+                  username:'',
                   password:'',
                   passwordConfirm: '',
                   error: undefined,
@@ -22,9 +45,9 @@ class Signup extends Component {
     const value = e.target.value
 
     let newState = Object.assign(this.state, {[name]: value})
-    if (validEmail(newState.email) &&
+    if (validateEmail(newState.email) &&
         newState.password.length > 0 &&
-        newState.password == newState.passwordConfirm) {
+        newState.password === newState.passwordConfirm) {
       newState.ready = true
     } else {
       newState.ready = false
@@ -37,6 +60,18 @@ class Signup extends Component {
     e.preventDefault()
     if (this.state.ready) {
       this.setState({loading: true})
+      const payload = {
+        email: this.state.email,
+        username: this.state.username,
+        password: this.state.password,
+        passwordConfirmation: this.state.passwordConfirm
+      }
+      instance.post('/signup', payload).then(res => {
+          this.props.history.push(res.headers.location)
+      }).catch(err => {
+          console.log(err);
+          this.setState({loading: false, error: err})
+      })
     }
   }
 
@@ -46,6 +81,7 @@ class Signup extends Component {
       <MiddleBox title='Signup'>
         <SignupForm onSubmit={this.handleSubmit}>
           <EmailInput onChange={this.handleChange} value={this.state.email} />
+          <UsernameField name='Username' onChange={this.handleChange} value={this.state.username} />
           <PasswordInput onChange={this.handleChange} value={this.state.password}/>
           <PasswordInput
             onChange={this.handleChange}
@@ -67,11 +103,6 @@ class Signup extends Component {
   }
 }
 
-
-const validEmail = (email) => {
-  var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(String(email).toLowerCase())
-}
 
 const loadingClass = (loading) => {
   if (loading) {

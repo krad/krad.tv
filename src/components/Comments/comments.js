@@ -1,63 +1,60 @@
 import React, { Component } from 'react'
+import LoadingIndicator from '../../components/Loaders/eqwave'
+import axios from 'axios'
 import moment from 'moment'
 import './comments.css'
 
-const lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur a fermentum felis. Nam iaculis pharetra elit. Integer lacinia pulvinar hendrerit. Phasellus hendrerit non tellus sit amet consequat. Nullam dapibus mollis risus, vel suscipit justo vulputate sit amet. Cras a sodales tortor, nec fermentum nulla. Vestibulum dapibus, diam in hendrerit commodo, purus tellus commodo risus, sed blandit neque ante in nisl. Pellentesque lobortis diam in est aliquam, tincidunt maximus est'
-const users = ['melgray', 'williii', 'stacie', 'laine']
-
-const random = (max) => {
-  return Math.floor(Math.random() * max)
-}
-
-const comments = {
-  results: [
-    {id: '1', createdAt: 1525978733409, comment: lorem, replies: 20, user: {id: 1, username: users[random(users.length-1)], avatar: '/user.png',_links: {profile: '/profile/1'}}},
-    {id: '2', createdAt: 1525978733409, comment: lorem, replies: 4, user: {id: 1, username: users[random(users.length-1)], avatar: 'user.png', _links: {profile: '/profile/1'}}},
-    {id: '3', createdAt: 1525978733409, comment: lorem, replies: 35, user: {id: 1, username: users[random(users.length-1)], avatar: 'user.png', _links: {profile: '/profile/1'}}},
-    {id: '4', createdAt: 1525978733409, comment: lorem, replies: 99, user: {id: 1, username: users[random(users.length-1)], avatar: 'user.png', _links: {profile: '/profile/1'}}},
-    {id: '5', createdAt: 1525978733409, comment: lorem, replies: 232, user: {id: 1, username: users[random(users.length-1)], avatar: 'user.png', _links: {profile: '/profile/1'}}}
-
-  ],
-  totalCount: 5000,
-  _links: { next: '/comment/page-2' }
-}
-
-const Loading = () => <div>Loading...</div>;
-
+const instance = axios.create({
+  baseURL: 'http://0.0.0.0:3000/',
+  timeout: 2000,
+  transformResponse: (data) => {
+    return JSON.parse(data)
+  }
+})
 
 export default class Comments extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {comments: undefined, next: undefined, prev: undefined, totalCount: undefined}
+    this.state = {loading: false,
+                  comments: [],
+                      next: undefined,
+                      prev: undefined,
+                totalCount: undefined}
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      const next = comments._links.next
-      const prev = comments._links.prev
-      this.setState({comments: comments.results,
-                         next: next,
-                         prev: prev,
-                   totalCount: comments.totalCount})
-    }, 2000)
+    this.source = axios.CancelToken.source();
+    this.setState({loading: true})
+    instance.get('/comments?broadcast=1', {CancelToken: this.source.token})
+    .then(res => {
+      this.setState({loading: false, error: undefined, ...res.data})
+    }).catch(err => {
+      this.setState({loading: false, error: err})
+    })
+  }
+
+  componentWillUnmount() {
+    this.source.cancel()
   }
 
   render() {
-    var body
-    if (this.state.comments) {
-      body = this.state.comments.map(comment => <Comment key={comment.id} {...comment} />)
-    } else {
-      body = <Loading />
+    if (this.state.loading) {
+      return <LoadingIndicator />
+    }
+
+    if (this.state.error) {
+      return <ErrorMessage error={this.state.error} />
     }
 
     return (
-      <div className=''>
+      <div className='comments'>
         <CommentCount {...this.state} />
-        {body}
+        {this.state.comments.map(comment => <Comment key={comment.id} {...comment} />)}
         <CommentInput />
       </div>
     )
+
   }
 }
 
@@ -98,17 +95,18 @@ function CommentWraper(props) {
 }
 
 function CommentBody(props) {
-  return (<div className='media'>{props.comment}</div>)
+  return (<div className='media'>{props.body}</div>)
 }
 
 function CommentUserInfo(props) {
-  return <p><a className='title is-6' href={props._links.profile}>@{props.username} - {moment(props.createdAt).fromNow()}</a></p>
+  return <p><a className='title is-6'>@{props.username} - {moment(props.createdAt).fromNow()}</a></p>
 }
 
 function CommentUserImage(props) {
+  const avatar = props.avatar || 'User.png'
   return (
     <figure className='image is-48x48'>
-      <img className='rounded' src={props.avatar} alt='User avatar' />
+      <img className='rounded' src={avatar} alt='User avatar' />
     </figure>)
 }
 
@@ -182,5 +180,15 @@ function CommentReactionControls(props) {
         <span>REPLY</span>
       </a>
     </div>
+  )
+}
+
+
+function ErrorMessage(props) {
+  return (
+    <section className='section'>
+      <h1 className='title'>Something went wrong.</h1>
+      <h3 className='subtitle'>Ooohhh noooooo!!!</h3>
+    </section>
   )
 }
