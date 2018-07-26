@@ -17,7 +17,7 @@ function LeftSection(props) {
     <div className='navbar-start'>
       <div className='navbar-brand'>
         <a href='/' className='navbar-item is-transparent'>
-          <img src='krad.png' alt='krad.tv - pretty far out radical stuff'/>
+          <img src='/krad.png' alt='krad.tv - pretty far out radical stuff'/>
         </a>
       </div>
     </div>

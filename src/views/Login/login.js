@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { Router } from 'react-router-dom'
-
 import MiddleBox from '../../components/MiddleBox/middle-box'
 import { EmailInput, PasswordInput, validateEmail } from '../../components/AuthFields/auth-fields'
 import axios from 'axios'
@@ -9,6 +7,8 @@ import './login.css'
 const instance = axios.create({
   baseURL: 'http://0.0.0.0:3000/',
   timeout: 2000,
+  // withCredentials: true,
+  // credentials: 'same-origin',
   transformResponse: (data) => {
     return JSON.parse(data)
   }
@@ -57,6 +57,7 @@ class Login extends Component {
         password: this.state.password
       }
       instance.post('/login', payload).then(res => {
+        window.localStorage.setItem('user', JSON.stringify(res.data))
         this.props.history.push(res.headers.location)
       }).catch(err => {
         let msg

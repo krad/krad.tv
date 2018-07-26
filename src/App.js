@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Header from './components/Header/header'
-// import Footer from './components/Footer/footer'
+import Footer from './components/Footer/footer'
 
 import Home from './views/Home/home'
 import Broadcast from './views/Broadcast/broadcast'
@@ -24,7 +24,7 @@ class App extends Component {
         <Router>
           <Switch>
             <Route exact path ='/' component={Home} />
-            <Route path='/watch/:broadcastID' component={Broadcast} />
+            <Route path='/watch/:broadcastId' component={Broadcast} />
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
             <Route path='/profile' component={ManageProfile} />
@@ -35,6 +35,7 @@ class App extends Component {
           </Switch>
         </Router>
         </main>
+        <Footer />
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import LoadingIndicator from '../../components/Loaders/bubbles'
+// import LoadingIndicator from '../../components/Loaders/bubbles'
 
 export default class ManageProfile extends Component {
   constructor(props) {

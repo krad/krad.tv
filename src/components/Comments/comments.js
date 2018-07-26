@@ -7,10 +7,19 @@ import './comments.css'
 const instance = axios.create({
   baseURL: 'http://0.0.0.0:3000/',
   timeout: 2000,
+  withCredentials: true,
+  credentials: 'same-origin',
   transformResponse: (data) => {
     return JSON.parse(data)
   }
 })
+
+const responseInterceptor = (response) => {
+  return Promise.resolve(response)
+}
+const errorInterceptor = (error) => Promise.reject(error.response)
+instance.interceptors.response.use(responseInterceptor, errorInterceptor)
+
 
 export default class Comments extends Component {
 
@@ -18,15 +27,18 @@ export default class Comments extends Component {
     super(props)
     this.state = {loading: false,
                   comments: [],
+                       url: '/comments?broadcast='+props.broadcastId,
                       next: undefined,
                       prev: undefined,
                 totalCount: undefined}
+
+    this.handleAddComment = this.handleAddComment.bind(this)
   }
 
   componentDidMount() {
     this.source = axios.CancelToken.source();
     this.setState({loading: true})
-    instance.get('/comments?broadcast=1', {CancelToken: this.source.token})
+    instance.get(this.state.url, {CancelToken: this.source.token})
     .then(res => {
       this.setState({loading: false, error: undefined, ...res.data})
     }).catch(err => {
@@ -36,6 +48,14 @@ export default class Comments extends Component {
 
   componentWillUnmount() {
     this.source.cancel()
+  }
+
+  handleAddComment(comment) {
+    let comments = this.state.comments
+    if (!comments) { comments = []}
+    comment.user = this.props.user
+    comments.push(comment)
+    this.setState({comments: comments})
   }
 
   render() {
@@ -51,7 +71,7 @@ export default class Comments extends Component {
       <div className='comments'>
         <CommentCount {...this.state} />
         {this.state.comments.map(comment => <Comment key={comment.id} {...comment} />)}
-        <CommentInput />
+        <CommentInput user={this.props.user} onAdd={this.handleAddComment} {...this.props}/>
       </div>
     )
 
@@ -72,7 +92,7 @@ function CommentCount(props) {
   if (props.totalCount) {
     return (<h1 className='title is-4'>{props.totalCount} comments</h1>)
   } else {
-    return <h1></h1>
+    return <span></span>
   }
 
 }
@@ -103,7 +123,7 @@ function CommentUserInfo(props) {
 }
 
 function CommentUserImage(props) {
-  const avatar = props.avatar || 'User.png'
+  const avatar = props.avatar || '/User.png'
   return (
     <figure className='image is-48x48'>
       <img className='rounded' src={avatar} alt='User avatar' />
@@ -114,9 +134,10 @@ class CommentInput extends Component {
 
   constructor(props) {
     super(props)
-    this.state        = {comment: ''}
+    this.state        = {comment: '', loading: false, error: undefined, submited: false}
     this.maxInput     = props.maxInput || 512
     this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleChange(e) {
@@ -127,12 +148,55 @@ class CommentInput extends Component {
     }
   }
 
+  handleSubmit(e) {
+    e.preventDefault()
+    this.setState({loading: true})
+    const payload = {
+      broadcast: this.props.broadcastId,
+      body: this.state.comment
+    }
+    instance.post('/comment', payload)
+    .then(result => {
+      this.setState({loading: false, submitted: true})
+      this.props.onAdd(result.data)
+    }).catch(err => {
+      let msg
+      if (err.data && err.data.error) { msg = err.data.error }
+      else { msg = 'Something went wrong'}
+      this.setState({loading: false, error: msg})
+    })
+  }
+
   render() {
-    return (
+    if (this.state.submitted) {
+      return <span></span>
+    }
+
+    return <NewCommentForm
+      user={this.props.user}
+      onSubmit={this.handleSubmit}
+      onChange={this.handleChange}
+      comment={this.state.comment}
+      loading={this.state.loading}
+      maxInput={this.maxInput}
+    />
+
+  }
+}
+
+function NewCommentForm(props) {
+  let buttonClass = 'button is-dark'
+  if (props.loading) { buttonClass += ' is-loading' }
+
+  const user = props.user
+  const avatar = user.avatar || '/User.png'
+
+  return (
+      <form action='/comments' onSubmit={props.onSubmit}>
       <article className="media">
         <figure className="media-left">
           <p className="image is-64x64">
-            <img src="user.png" className='rounded' alt='User avatar' />
+            <img src={avatar} className='rounded' alt={user.username + ' avatar'} />
           </p>
         </figure>
         <div className="media-content">
@@ -141,25 +205,27 @@ class CommentInput extends Component {
               <textarea
                 className="textarea"
                 placeholder="Add a comment..."
-                onChange={this.handleChange}
-                value={this.state.comment} />
+                onChange={props.onChange}
+                value={props.comment}
+                disabled={props.loading} />
             </p>
         </div>
         <nav className="level">
           <div className="level-left">
             <div className="level-item">
-              <a className="button is-dark">Submit</a>
+              <button type='submit' className={buttonClass}>Submit</button>
             </div>
           </div>
           <div className="level-right">
-            <div className="level-item">{this.state.comment.length} / {this.maxInput}</div>
+            <div className="level-item">{props.comment.length} / {props.maxInput}</div>
           </div>
         </nav>
       </div>
     </article>
-)
-  }
+    </form>
+  )
 }
+
 
 function CommentReactionControls(props) {
   return (

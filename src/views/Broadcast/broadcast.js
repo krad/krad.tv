@@ -16,7 +16,19 @@ const instance = axios.create({
   }
 })
 
-export default class Broadcast extends Component {
+const Broadcast = ({ match }) => {
+  const user = JSON.parse(window.localStorage.getItem('user'))
+
+  return (
+    <div className='broadcast'>
+      <PlayerSetTop {...match.params} />
+      <Comments user={user} {...match.params} />
+    </div>)
+}
+
+export default Broadcast
+
+class PlayerSetTop extends Component {
 
   constructor(props) {
     super(props)
@@ -44,18 +56,17 @@ export default class Broadcast extends Component {
 
     const broadcast = this.state.broadcast
     return (
-      <div id='watch' className='container'>
-        <Video {...this.state.broadcast} />
-        <BroadcastInfo {...this.state.broadcast}/>
+      <div className='broadcast-set-top'>
+        <Video {...broadcast} />
+        <BroadcastInfo {...broadcast}/>
       </div>
     )
   }
 }
 
 function BroadcastInfo(props) {
-  console.log(props);
   return (
-    <section className='section'>
+    <div className='broadcast-info'>
         <div className='level'>
           <div className='level-left'>
             <BroadcastDetails {...props} />
@@ -68,8 +79,7 @@ function BroadcastInfo(props) {
         <UserInfo {...props.user}/>
         <Details {...props} />
         <hr />
-      <Comments id={props.bid} />
-    </section>
+    </div>
   )
 }
 
@@ -144,14 +154,14 @@ function UserProfile(props) {
         <div className='level-left'>
           <div className='level-item'>
             <figure className='image is-48x48'>
-              <img src='user.png' alt='user avatar' />
+              <img src='/User.png' alt='user avatar' />
             </figure>
           </div>
 
           <div className='level-item'>
             <ul>
-              <li><p><a href='#' className='title is-6'>{props.name}</a></p></li>
-              <li><p><a href='#' className='subtitle is-6'>@{props.username}</a></p></li>
+              <li><p><a className='title is-6'>{props.name}</a></p></li>
+              <li><p><a className='subtitle is-6'>@{props.username}</a></p></li>
             </ul>
           </div>
         </div>

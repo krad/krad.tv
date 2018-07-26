@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import { Router } from 'react-router-dom'
-
 import MiddleBox from '../../components/MiddleBox/middle-box'
 import { UsernameField, EmailInput, PasswordInput, validateEmail } from '../../components/AuthFields/auth-fields'
 import axios from 'axios'
@@ -9,6 +7,8 @@ import './signup.css'
 const instance = axios.create({
   baseURL: 'http://0.0.0.0:3000/',
   timeout: 2000,
+  withCredentials: true,
+  credentials: 'same-origin',
   transformResponse: (data) => {
     return JSON.parse(data)
   }

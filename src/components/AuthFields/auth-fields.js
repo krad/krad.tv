@@ -70,6 +70,7 @@ class UsernameField extends Component {
             className={inputClassname}
             type='text'
             name='username'
+            placeholder='radperson'
             onChange={this.handleChange}
           />
           <UserIcon />
@@ -88,6 +89,7 @@ function TextInput(props) {
         <input
           className='input'
           type='text'
+          placeholder={props.placeholder}
           name={props.name}
           onChange={props.onChange}
           value={props.value} />

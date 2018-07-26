@@ -47,8 +47,8 @@
 .play-progress::-webkit-progress-bar { background: transparent; }
 .play-progress::-webkit-progress-value { background: #209cee; }
 
-.download-progress::-webkit-progress-bar { background: #aaa; }
-.download-progress::-webkit-progress-value { background:#ddd; }
+.download-progress::-webkit-progress-bar { background: #444; }
+.download-progress::-webkit-progress-value { background:#aaa; }
 
 .player-button {
   padding: 16px 16px 16px 16px;
