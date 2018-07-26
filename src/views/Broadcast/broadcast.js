@@ -4,13 +4,14 @@ import moment from 'moment'
 
 import Video from '../../components/Player/video'
 import Comments from '../../components/Comments/comments'
-import { LikeBroadcastButton, DislikeBroadcastButton, ReportBroadcastButton, SubscribeButton } from '../../components/Buttons/opinion-button'
 import LoadingIndicator from '../../components/Loaders/bubbles'
 
 
 const instance = axios.create({
   baseURL: 'http://0.0.0.0:3000/',
   timeout: 2000,
+  withCredentials: true,
+  credentials: 'same-origin',
   transformResponse: (data) => {
     return JSON.parse(data)
   }
@@ -18,12 +19,7 @@ const instance = axios.create({
 
 const Broadcast = ({ match }) => {
   const user = JSON.parse(window.localStorage.getItem('user'))
-
-  return (
-    <div className='broadcast'>
-      <PlayerSetTop {...match.params} />
-      <Comments user={user} {...match.params} />
-    </div>)
+  return <PlayerSetTop user={user} {...match.params} />
 }
 
 export default Broadcast
@@ -37,7 +33,7 @@ class PlayerSetTop extends Component {
 
   componentDidMount() {
     this.setState({loading: true})
-    instance.get('/broadcasts/1')
+    instance.get('/broadcasts/'+this.props.broadcastId)
     .then(res => {
       this.setState({loading: false, error: undefined, broadcast: res.data})
     }).catch(err => {
@@ -58,7 +54,7 @@ class PlayerSetTop extends Component {
     return (
       <div className='broadcast-set-top'>
         <Video {...broadcast} />
-        <BroadcastInfo {...broadcast}/>
+        <BroadcastInfo {...this.props} {...broadcast}/>
       </div>
     )
   }
@@ -66,20 +62,14 @@ class PlayerSetTop extends Component {
 
 function BroadcastInfo(props) {
   return (
-    <div className='broadcast-info'>
-        <div className='level'>
-          <div className='level-left'>
-            <BroadcastDetails {...props} />
-          </div>
-          <div className='level-right'>
-            <BroadcastControls {...props} />
-          </div>
-        </div>
+    <section className='section'>
+        <BroadcastDetails {...props} />
         <hr />
         <UserInfo {...props.user}/>
         <Details {...props} />
         <hr />
-    </div>
+        <Comments {...props} />
+    </section>
   )
 }
 
@@ -88,7 +78,16 @@ function BroadcastDetails(props) {
     <div>
       <p className='title'>{props.title}</p>
       <p className='subtitle'>{moment(props.createdAt).fromNow()}</p>
-      <p className='subtitle'>{props.viewCount > 0 ? props.viewCount.toLocaleString() + ' views' : '' }</p>
+
+      <div className='level'>
+        <div className='level-left'>
+          <p className='subtitle'>{props.viewCount > 0 ? props.viewCount.toLocaleString() + ' views' : '' }</p>
+        </div>
+        <div className='level-right'>
+          <BroadcastControls {...props} />
+        </div>
+      </div>
+
     </div>
   )
 }
@@ -97,13 +96,22 @@ class BroadcastControls extends Component {
 
   constructor(props) {
     super(props)
-    this.state        = {selected: undefined}
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.state        = {selected: undefined, loading: false}
+    this.handleClick = this.handleClick.bind(this)
   }
 
-  handleSubmit(selected) {
-    console.log(selected, selected==='like');
-    this.setState({selected: selected})
+  handleClick(opinion) {
+    console.log(opinion);
+    this.setState({selected: opinion, loading: true})
+    const url = ['/broadcasts', this.props.broadcastId, 'react'].join('/')
+    const payload = {reaction: opinion}
+
+    instance.post(url, payload).then(res => {
+      console.log('success');
+      this.setState({loading: false})
+    }).catch(err => {
+      this.setState({loading: false, selected: undefined})
+    })
   }
 
   render() {
@@ -111,29 +119,72 @@ class BroadcastControls extends Component {
       <div className='level-item'>
         <div className='level is-mobile'>
           <LevelItem>
-            <LikeBroadcastButton
-              broadcast='123'
-              selected={this.state.selected==='like'}
-              onSuccess={this.handleSubmit} />
+            <ReactionButton
+              name='Like'
+              selectedLabel='Liked!'
+              onClick={this.handleClick}
+              {...this.state}
+            />
           </LevelItem>
 
           <LevelItem>
-            <DislikeBroadcastButton
-              broadcast='123'
-              selected={this.state.selected==='dislike'}
-              onSuccess={this.handleSubmit} />
+            <ReactionButton
+              name='Dislike'
+              selectedLabel='Disliked :('
+              onClick={this.handleClick}
+              {...this.state}
+            />
           </LevelItem>
 
           <LevelItem>
-            <ReportBroadcastButton
-              broadcast='123'
-              selected={this.state.selected==='flag'}
-              onSuccess={this.handleSubmit} />
+            <ReactionButton
+              name='Report'
+              selectedLabel='Reported!'
+              onClick={this.handleClick}
+              {...this.state}
+            />
           </LevelItem>
         </div>
       </div>
     )
   }
+}
+
+function ReactionButton(props) {
+  let className   = ['button', 'is-dark']
+  let label
+  if (props.name.toLowerCase() === props.selected) {
+    label = props.selectedLabel
+    if (props.loading) { className.push('is-loading') }
+  } else {
+    label = props.name
+  }
+
+  className = className.join(' ')
+  return (
+    <span
+      className={className}
+      onClick={() => props.onClick(props.name.toLowerCase()) }
+      value={props.name.toLowerCase()}
+      >
+        <ReactionIcon name={props.name.toLowerCase()} />
+        <span>{label}</span>
+    </span>
+  )
+}
+
+function ReactionIcon(props) {
+  const icons = {
+    like: 'fas fa-thumbs-up',
+    dislike: 'fas fa-thumbs-down',
+    report: 'fas fa-flag',
+  }
+
+  return (
+    <span className='icon is-small'>
+      <i className={icons[props.name]} />
+    </span>
+  )
 }
 
 
@@ -167,7 +218,7 @@ function UserProfile(props) {
         </div>
 
         <div className='level-right'>
-          <span className='level-item'><SubscribeButton /></span>
+          {/* <span className='level-item'><SubscribeButton /></span> */}
         </div>
       </div>
     </div>
@@ -175,11 +226,7 @@ function UserProfile(props) {
 }
 
 function Details(props) {
-  return (
-    <div className='media'>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur a fermentum felis. Nam iaculis pharetra elit. Integer lacinia pulvinar hendrerit.
-    </div>
-  )
+  return <div className='media'>{props.description}</div>
 }
 
 function LevelItem(props) {

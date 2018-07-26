@@ -63,6 +63,7 @@ class Signup extends Component {
         passwordConfirmation: this.state.passwordConfirm
       }
       instance.post('/signup', payload).then(res => {
+        window.localStorage.setItem('user', JSON.stringify(res.data))
           this.props.history.push(res.headers.location)
       }).catch(err => {
         let msg

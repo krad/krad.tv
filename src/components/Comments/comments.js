@@ -55,7 +55,8 @@ export default class Comments extends Component {
     if (!comments) { comments = []}
     comment.user = this.props.user
     comments.push(comment)
-    this.setState({comments: comments})
+    const totalCount = this.state.totalCount || 0
+    this.setState({comments: comments, totalCount:totalCount+1})
   }
 
   render() {
@@ -135,7 +136,7 @@ class CommentInput extends Component {
   constructor(props) {
     super(props)
     this.state        = {comment: '', loading: false, error: undefined, submited: false}
-    this.maxInput     = props.maxInput || 512
+    this.maxInput     = props.maxInput || 1024
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
