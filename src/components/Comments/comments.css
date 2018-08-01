@@ -2,3 +2,7 @@
 .comment-reactions { margin:1em 0 0 0; }
 .reaction { color: #363636; margin: 0 1.5em 0 0; }
 .rounded { border-radius: 50%; }
+
+.profileImage {
+  border: 1px solid #bbb;
+}

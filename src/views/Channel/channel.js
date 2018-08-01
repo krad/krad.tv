@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import moment from 'moment'
 
 export default class Home extends Component {
   constructor(props) {
     super(props)
+    this.state = {}
   }
 
   render() {
-      return (
-        <div>Channel</div>
-      )
+    return (<div>Channel</div>)
   }
 }

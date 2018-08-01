@@ -1,3 +1,7 @@
+.broadcast-details a {
+  color: #070707;
+}
+
 .broadcastTitle {
   width: 250px;
   white-space: nowrap;
@@ -5,7 +9,43 @@
   text-overflow: ellipsis;
 }
 
-.previewImage {
+.user-subtitle {
+  margin: 0; padding: 0;
+}
+
+.preview-img {
   background: #d8d8d8;
-  object-fit: contain;
+  object-fit: fill;
+}
+
+.preview-time-wrapper {
+  float:right;
+  position: relative;
+  margin-top: -23px;
+}
+
+.preview-time-info {
+  background: #000;
+  background: rgba(0.0, 0.0, 0.0, 0.5);
+  color: #fff;
+  padding:.2em 1em;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.live-icon {
+  color: #ff0000;
+  font-size: 9px;
+  margin-bottom:1.2px;
+}
+
+.live-time-code span {
+  margin: .2em;
+  vertical-align: baseline;
+}
+
+.profile-img {
+  border:1px solid #bbb;
+  background: #d8d8d8;
+  object-fit: fill !important;
 }

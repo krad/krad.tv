@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import {  Link } from 'react-router-dom'
 import LoadingIndicator from '../../components/Loaders/bubbles'
+import moment from 'moment'
 import axios from 'axios'
 import './home.css'
 
 const instance = axios.create({
-  baseURL: 'http://0.0.0.0:3000/',
+  baseURL: process.env.REACT_APP_KRAD_API_BASE_PATH,
   timeout: 2000,
   transformResponse: (data) => {
     return JSON.parse(data)
@@ -16,6 +17,7 @@ export default class Home extends Component {
 
   constructor(props) {
     super(props)
+    // console.log(process.env.REACT_APP_KRAD_API_BASE_PATH);
     this.state = {loading: false }
   }
 
@@ -72,15 +74,20 @@ function BroadcastCard(props) {
 
 function BroadcastPoster(props) {
   const stream        = props.stream || {}
-  const previewImage  = stream.previewImage || 'Film.png'
+
+  let previewImage
+  if (stream.thumbnail) { previewImage = [process.env.REACT_APP_KRAD_ASSET_BASE_PATH, stream.thumbnail].join('/') }
+  else { previewImage = '/colorbars.jpg' }
+
   const url           = '/watch/' + props.id
   return (
     <div className='card-image'>
       <figure className='image is-16by9'>
         <Link to={url}>
-          <img className='previewImage' src={previewImage} alt='stream preview'/>
+          <img className='preview-img' src={previewImage} alt='stream preview'/>
         </Link>
       </figure>
+      <BroadcastTimeCode {...props.stream} />
     </div>
   )
 }
@@ -88,44 +95,80 @@ function BroadcastPoster(props) {
 function BroadcastInfo(props) {
   return (
     <div className='card-content'>
-      <UserDetails {...props.user} />
       <BroadcastDetails {...props} />
     </div>
   )
 }
 
-function BroadcastDetails(props) {
-  const title = props.title
-  const url   = '/watch/' + props.id
+function BroadcastTimeCode(props) {
+  let timecode = '00:00'
+  if (props.type.toLowerCase() === 'live') {
+    timecode = <BroadcastTimeCodeLive {...props} />
+
+  }
+
   return (
-    <div className='media'>
+    <span className='is-overlay preview-time-wrapper'>
+      <span className='preview-time-info'>{timecode}</span>
+    </span>
+  )
+}
+
+function BroadcastTimeCodeLive(props) {
+  return (
+    <span className='live-time-code'>
+      <span><i className="live-icon fas fa-circle"/></span>
+      <span>LIVE</span>
+    </span>
+  )
+}
+
+function BroadcastDetails(props) {
+  const title         = props.title
+  const broadcastURL  = '/watch/' + props.id
+
+  let avatar
+  if (props.profileImage) { avatar = [process.env.REACT_APP_KRAD_ASSET_BASE_PATH, props.profileImage].join('') }
+  else { avatar = '/User.png' }
+
+  const user = props.user
+  const channelURL = '/channel/' + user.username
+
+  const userAlt = [user.username, "'s profile image'"].join('')
+
+  return (
+    <div className='media broadcast-details'>
+      <div className='media-left'>
+        <figure className='image is-48x48 is-1by1'>
+          <Link to={channelURL}>
+            <img className='profile-img' src={avatar} alt={userAlt}/>
+          </Link>
+        </figure>
+      </div>
+
       <div className='media-content'>
-        <Link to={url}>
-          <p className='broadcastTitle title is-6'>{title}</p>
-        </Link>
+          <p className='broadcast-title title is-6'>
+            <Link to={broadcastURL}>{title}</Link>
+          </p>
+          <p className='subtitle is-7 user-subtitle'>
+            <span>
+              <Link to={channelURL}>@{user.username}</Link>
+            </span>
+            <br />
+            <BroadcastStats {...props}/>
+          </p>
       </div>
     </div>
   )
 }
 
-function UserDetails(props) {
-
-  const profileImage = props.profileImage || 'User.png'
+function BroadcastStats(props) {
+  let createdAt = moment(props.createdAt).fromNow()
 
   return (
-    <div className='media'>
-      <div className='media-left'>
-        <figure className='image is-48x48'>
-          <img src={profileImage} alt={[props.username, "profile image"].join(' ')}/>
-        </figure>
-      </div>
-
-      <div className='media-content'>
-        <p><a className='title is-6'>{props.name}</a></p>
-        <p><a className='subtitle is-6'>@{props.username}</a></p>
-      </div>
-
-    </div>
+    <span className='subtitle is-7'>
+      112k views &bull; {createdAt}
+    </span>
   )
 }
 

@@ -1,2 +1,14 @@
 .footer {
+  background-color: #000;
+}
+
+.footer a, .footer p, .footer .subtitle, .footer .title {
+  color: #ccc;
+}
+
+.footer a:hover { color: #fff; }
+
+
+.underline {
+  text-decoration: underline;
 }

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Header from './components/Header/header'
-import Footer from './components/Footer/footer'
+// import Footer from './components/Footer/footer'
 
 import Home from './views/Home/home'
 import Broadcast from './views/Broadcast/broadcast'
+import Channel from './views/Channel/channel'
 import Login from './views/Login/login'
 import Signup from './views/Signup/signup'
 import ForgotPassword from './views/ForgotPassword/forgot-password'
@@ -25,6 +26,7 @@ class App extends Component {
           <Switch>
             <Route exact path ='/' component={Home} />
             <Route path='/watch/:broadcastId' component={Broadcast} />
+            <Route path='/channel/:channelId' component={Channel} />
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
             <Route path='/profile' component={ManageProfile} />
@@ -35,7 +37,7 @@ class App extends Component {
           </Switch>
         </Router>
         </main>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     );
   }

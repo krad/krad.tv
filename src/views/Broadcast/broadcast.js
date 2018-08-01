@@ -3,17 +3,19 @@ import axios from 'axios'
 import moment from 'moment'
 
 import Video from '../../components/Player/video'
-import Comments from '../../components/Comments/comments'
+// import Comments from '../../components/Comments/comments'
 import LoadingIndicator from '../../components/Loaders/bubbles'
+
+import './broadcast.css'
 
 
 const instance = axios.create({
-  baseURL: 'http://0.0.0.0:3000/',
+  baseURL: process.env.REACT_APP_KRAD_API_BASE_PATH,
   timeout: 2000,
   withCredentials: true,
   credentials: 'same-origin',
   transformResponse: (data) => {
-    return JSON.parse(data)
+    if (data) { return JSON.parse(data) }
   }
 })
 
@@ -68,7 +70,7 @@ function BroadcastInfo(props) {
         <UserInfo {...props.user}/>
         <Details {...props} />
         <hr />
-        <Comments {...props} />
+        {/* <Comments {...props} /> */}
     </section>
   )
 }
@@ -101,13 +103,11 @@ class BroadcastControls extends Component {
   }
 
   handleClick(opinion) {
-    console.log(opinion);
     this.setState({selected: opinion, loading: true})
     const url = ['/broadcasts', this.props.broadcastId, 'react'].join('/')
     const payload = {reaction: opinion}
 
     instance.post(url, payload).then(res => {
-      console.log('success');
       this.setState({loading: false})
     }).catch(err => {
       this.setState({loading: false, selected: undefined})
@@ -199,13 +199,17 @@ function UserInfo(props) {
 }
 
 function UserProfile(props) {
+  let avatar
+  if (props.profileImage) { avatar = [process.env.REACT_APP_KRAD_ASSET_BASE_PATH, props.profileImage].join('') }
+  else { avatar = '/User.png' }
+
   return (
     <div>
       <div className='level broadcast-user-info'>
         <div className='level-left'>
           <div className='level-item'>
-            <figure className='image is-48x48'>
-              <img src='/User.png' alt='user avatar' />
+            <figure className='image is-48x48 is-square'>
+              <img src={avatar} alt='user avatar' className='profileImage' />
             </figure>
           </div>
 

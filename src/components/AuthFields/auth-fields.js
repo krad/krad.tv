@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios'
 
 const instance = axios.create({
-  baseURL: 'http://0.0.0.0:3000/',
+  baseURL: process.env.REACT_APP_KRAD_API_BASE_PATH,
   timeout: 2000
 })
 

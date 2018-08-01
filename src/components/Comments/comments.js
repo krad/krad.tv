@@ -5,7 +5,7 @@ import moment from 'moment'
 import './comments.css'
 
 const instance = axios.create({
-  baseURL: 'http://0.0.0.0:3000/',
+  baseURL: process.env.REACT_APP_KRAD_API_BASE_PATH,
   timeout: 2000,
   withCredentials: true,
   credentials: 'same-origin',
@@ -124,10 +124,13 @@ function CommentUserInfo(props) {
 }
 
 function CommentUserImage(props) {
-  const avatar = props.avatar || '/User.png'
+  let avatar
+  if (props.profileImage) { avatar = [process.env.REACT_APP_KRAD_ASSET_BASE_PATH, props.profileImage].join('') }
+  else { avatar = '/User.png' }
+
   return (
-    <figure className='image is-48x48'>
-      <img className='rounded' src={avatar} alt='User avatar' />
+    <figure className='image is-48x48 is-square'>
+      <img width='48' height='48' className='rounded profileImage' src={avatar} alt='User avatar' />
     </figure>)
 }
 
@@ -190,14 +193,20 @@ function NewCommentForm(props) {
   if (props.loading) { buttonClass += ' is-loading' }
 
   const user = props.user
-  const avatar = user.avatar || '/User.png'
+  if (!user) {
+    return <span></span>
+  }
+
+  let avatar
+  if (props.profileImage) { avatar = [process.env.REACT_APP_KRAD_ASSET_BASE_PATH, props.profileImage].join('') }
+  else { avatar = '/User.png' }
 
   return (
       <form action='/comments' onSubmit={props.onSubmit}>
       <article className="media">
         <figure className="media-left">
-          <p className="image is-64x64">
-            <img src={avatar} className='rounded' alt={user.username + ' avatar'} />
+          <p className="image is-64x64 is-square">
+            <img src={avatar} className='rounded profileImage' alt={user.username + ' avatar'} />
           </p>
         </figure>
         <div className="media-content">
