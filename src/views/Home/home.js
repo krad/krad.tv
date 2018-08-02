@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {  Link } from 'react-router-dom'
 import LoadingIndicator from '../../components/Loaders/bubbles'
+import { makeTimeCode } from 'plainview/plainview'
 import moment from 'moment'
 import axios from 'axios'
 import './home.css'
@@ -102,6 +103,12 @@ function BroadcastInfo(props) {
 
 function BroadcastTimeCode(props) {
   let timecode = '00:00'
+
+  if (props.duration) {
+    timecode = makeTimeCode(props.duration)
+  }
+
+
   if (props.type.toLowerCase() === 'live') {
     timecode = <BroadcastTimeCodeLive {...props} />
 

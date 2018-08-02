@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512px" height="384px" viewBox="0 0 512 384" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>full-screen-svgrepo-com</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="full-screen-svgrepo-com" fill-rule="nonzero" fill="#FFFFFF">
+            <path d="M192,0 L32,0 C14.328,0 0,14.328 0,32 L0,128 C0,145.672 14.328,160 32,160 C49.672,160 64,145.672 64,128 L64,64 L192,64 C209.672,64 224,49.672 224,32 C224,14.328 209.672,0 192,0 Z" id="Shape"></path>
+            <path d="M480,0 L320,0 C302.328,0 288,14.328 288,32 C288,49.672 302.328,64 320,64 L448,64 L448,128 C448,145.672 462.328,160 480,160 C497.672,160 512,145.672 512,128 L512,32 C512,14.328 497.672,0 480,0 Z" id="Shape"></path>
+            <path d="M480,224 C462.328,224 448,238.328 448,256 L448,320 L320,320 C302.328,320 288,334.328 288,352 C288,369.672 302.328,384 320,384 L480,384 C497.672,384 512,369.672 512,352 L512,256 C512,238.328 497.672,224 480,224 Z" id="Shape"></path>
+            <path d="M192,320 L64,320 L64,256 C64,238.328 49.672,224 32,224 C14.328,224 0,238.328 0,256 L0,352 C0,369.672 14.328,384 32,384 L192,384 C209.672,384 224,369.672 224,352 C224,334.328 209.672,320 192,320 Z" id="Shape"></path>
+        </g>
+    </g>
+</svg>

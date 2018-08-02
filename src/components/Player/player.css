@@ -51,13 +51,27 @@
 .download-progress::-webkit-progress-value { background:#aaa; }
 
 .player-button {
-  padding: 16px 16px 16px 16px;
+  font-size: 12px;
+  height: 46px;
+  width: 60px;
+  margin:0;
+  padding: 13px 13px 13px 13px;
   color: #fff;
   border-style: solid;
   background: rgba(0, 0, 0, 0.0);
   border-color: rgba(0, 0, 0, 0.5);
   border-width: 0px 1px 0px 0px;
   outline: none;
+  float: left;
+}
+
+.timecode {
+  width: 130px;
+  border-right: none;
+}
+
+.full-screen {
+  float:right;
 }
 
 .player-button:last-child {

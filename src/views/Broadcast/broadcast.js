@@ -52,13 +52,19 @@ class PlayerSetTop extends Component {
       return <ErrorMessage error={this.state.error} />
     }
 
-    const broadcast = this.state.broadcast
-    return (
-      <div className='broadcast-set-top'>
-        <Video {...broadcast} />
-        <BroadcastInfo {...this.props} {...broadcast}/>
-      </div>
-    )
+    if (this.state.broadcast) {
+      const broadcast = this.state.broadcast
+      const stream = broadcast.stream
+
+      return (
+        <div className='broadcast-set-top'>
+          <Video {...stream} />
+          <BroadcastInfo {...this.props} {...broadcast}/>
+        </div>
+      )
+    }
+
+    return <LoadingIndicator />
   }
 }
 
