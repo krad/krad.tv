@@ -58,6 +58,10 @@ class Player extends Component {
         }
         break
       case 'fullscreen':
+        if (this._child.plainview) {
+          console.log(this._child.plainview);
+          this._child.plainview.requestFullScreen()
+        }
         break
       default:
         break
@@ -153,10 +157,16 @@ function PlayerControls(props) {
 
   if (props.ended) { playButton = reloadImg }
 
-
   let muteButton
   if (props.muted) { muteButton = unmuteImg }
   else { muteButton = muteImg }
+
+  let timeCode
+  if (props.currentTimeCode && props.totalTimeCode) {
+    timeCode = [props.currentTimeCode, props.totalTimeCode].join(' / ')
+  } else {
+    timeCode = (<span></span>)
+  }
 
     return (
       <div className='player-controls'>
@@ -182,9 +192,7 @@ function PlayerControls(props) {
             className='player-button mute'
             src={muteButton} />
 
-          <span className='player-button timecode'>
-            {props.currentTimeCode} / {props.totalTimeCode}
-          </span>
+          <span className='player-button timecode'>{timeCode}</span>
 
           <input
             type='image'

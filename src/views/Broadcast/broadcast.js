@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {  Link } from 'react-router-dom'
 import axios from 'axios'
 import moment from 'moment'
 
@@ -197,9 +198,7 @@ function ReactionIcon(props) {
 function UserInfo(props) {
   return (
     <section className='card-content'>
-      <div className=''>
         <UserProfile {...props} />
-      </div>
     </section>
   )
 }
@@ -211,26 +210,16 @@ function UserProfile(props) {
 
   return (
     <div>
-      <div className='level broadcast-user-info'>
-        <div className='level-left'>
-          <div className='level-item'>
-            <figure className='image is-48x48 is-square'>
-              <img src={avatar} alt='user avatar' className='profileImage' />
-            </figure>
-          </div>
+        <figure className='image is-48x48'>
+            <img src={avatar} alt='user avatar' className='profile-image' />
+        </figure>
 
-          <div className='level-item'>
-            <ul>
-              <li><p><a className='title is-6'>{props.name}</a></p></li>
-              <li><p><a className='subtitle is-6'>@{props.username}</a></p></li>
-            </ul>
-          </div>
-        </div>
+        <ul>
+          <li><p><Link to={['/channel', props.id].join('/')} className='title is-6' >{props.name}</Link></p></li>
+          <li><p><Link to={['/channel', props.id].join('/')} className='subtitle is-6' >@{props.username}</Link></p></li>
+        </ul>
 
-        <div className='level-right'>
           {/* <span className='level-item'><SubscribeButton /></span> */}
-        </div>
-      </div>
     </div>
   )
 }
