@@ -19,6 +19,11 @@
   margin:0;
   padding:0;
   background-color: rgba(0, 0, 0, 0.5);
+
+  -webkit-transition: opacity 1s;
+  -moz-transition: opacity 1s;
+  -o-transition: opacity 1s;
+  transition: opacity 1s;
 }
 
 .player-progress {
@@ -72,6 +77,10 @@
 
 .full-screen {
   float:right;
+}
+
+.status-label {
+  margin-left: 6px;
 }
 
 .player-button:last-child {

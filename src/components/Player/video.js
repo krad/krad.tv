@@ -23,6 +23,7 @@ class Player extends Component {
           currentTimeCode: undefined,
           downloadPercent: 0,
             playedPercent: 0,
+                  hovered: true,
                fullscreen: false
         }
 
@@ -37,6 +38,8 @@ class Player extends Component {
     this.handleMute                   = this.handleMute.bind(this)
     this.handleUnmute                 = this.handleUnmute.bind(this)
     this.handleEnded                  = this.handleEnded.bind(this)
+    this.handleMouseEnter             = this.handleMouseEnter.bind(this)
+    this.handleMouseLeave             = this.handleMouseLeave.bind(this)
   }
 
   handleClick(e) {
@@ -80,7 +83,8 @@ class Player extends Component {
   handlePlayProgress(percentDone, timecode, totalTimeCode) {
     this.setState({playedPercent: percentDone,
                  currentTimeCode: timecode,
-                   totalTimeCode: totalTimeCode})
+                   totalTimeCode: totalTimeCode,
+                         playing: true})
   }
 
   handlePlay()    { this.setState({playing: true}) }
@@ -93,13 +97,27 @@ class Player extends Component {
     this.setState({ended: true})
   }
 
+  handleMouseEnter() {
+    this.setState({hovered: true})
+  }
+
+  handleMouseLeave() {
+    if (this.state.playing) {
+      this.setState({hovered: false})
+    }
+  }
+
   render() {
     let loading
     if (this.state.loading) { loading = (<LoadingIndicator />) }
     else { loading = (<span></span>)}
 
     return (
-      <div className='player-wrapper'>
+      <div className='player-wrapper'
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+        onClick={this.handleMouseEnter}>
+        
         {loading}
         <Video
           ref={(child) => {this._child = child}}
@@ -114,7 +132,7 @@ class Player extends Component {
           onUnmute={this.handleUnmute}
           onEnded={this.handleEnded}
         />
-        <PlayerControls {...this.state} clickHandler={this.handleClick} />
+        <PlayerControls type={this.props.type} {...this.state} clickHandler={this.handleClick} />
       </div>
     )
   }
@@ -151,16 +169,84 @@ class Video extends Component {
 }
 
 function PlayerControls(props) {
-  let playButton
-  if (props.playing) { playButton = pauseImg }
-  else { playButton = playImg }
 
-  if (props.ended) { playButton = reloadImg }
+  let controls
+  if (props.type === 'LIVE') {
+    controls = <LivePlayerControls {...props} />
+  } else {
+    controls = <VODPlayerControls {...props} />
+  }
 
+  return (
+    <div className='player-controls' style={{opacity: props.hovered ? 1 : 0}}>
+      {controls}
+    </div>
+  )
+}
+
+function VODPlayerControls(props) {
+    return (
+        <div>
+          <PlayerProgress {...props} />
+          <PlayButton {...props} />
+          <MuteButton {...props} />
+          <Timecode {...props} />
+          <FullScreenButton />
+        </div>
+  )
+}
+
+function LivePlayerControls(props) {
+  return (
+    <div>
+      <MuteButton {...props} />
+      <StateLabel />
+      <FullScreenButton />
+    </div>)
+}
+
+function PlayerProgress(props) {
+  return (
+    <div className="player-progress">
+      <progress className='progress-bar download-progress' min='0' max='100' value={props.downloadPercent}></progress>
+      <progress className='progress-bar play-progress' min='0' max='100' value={props.playedPercent}></progress>
+    </div>
+  )
+}
+
+function MuteButton(props) {
   let muteButton
   if (props.muted) { muteButton = unmuteImg }
   else { muteButton = muteImg }
 
+  return (<input
+    type='image'
+    onClick={props.clickHandler}
+    value='mute'
+    alt='mute/unmute control'
+    className='player-button mute'
+    src={muteButton} />
+  )
+}
+
+function PlayButton(props) {
+  let playButton
+  if (props.playing) { playButton = pauseImg }
+  else { playButton = playImg }
+  if (props.ended) { playButton = reloadImg }
+
+  return (
+    <input
+      type='image'
+      onClick={props.clickHandler}
+      value='play'
+      alt='play/pause control'
+      className='player-button play'
+      src={playButton} />
+  )
+}
+
+function Timecode(props) {
   let timeCode
   if (props.currentTimeCode && props.totalTimeCode) {
     timeCode = [props.currentTimeCode, props.totalTimeCode].join(' / ')
@@ -168,43 +254,31 @@ function PlayerControls(props) {
     timeCode = (<span></span>)
   }
 
-    return (
-      <div className='player-controls'>
+  return (<span className='player-button timecode'>{timeCode}</span>)
+}
 
-        <div className="player-progress">
-          <progress className='progress-bar download-progress' min='0' max='100' value={props.downloadPercent}></progress>
-          <progress className='progress-bar play-progress' min='0' max='100' value={props.playedPercent}></progress>
-        </div>
+function StateLabel(props) {
+  return (
+    <span className='player-button status'>
+      <span className='icon has-text-danger'>
+        <i className="fas fa-circle" />
+        <span className='status-label'>LIVE</span>
+      </span>
+    </span>
+  )
+}
 
-          <input
-            type='image'
-            onClick={props.clickHandler}
-            value='play'
-            alt='play/pause control'
-            className='player-button play'
-            src={playButton} />
-
-          <input
-            type='image'
-            onClick={props.clickHandler}
-            value='mute'
-            alt='mute/unmute control'
-            className='player-button mute'
-            src={muteButton} />
-
-          <span className='player-button timecode'>{timeCode}</span>
-
-          <input
-            type='image'
-            onClick={props.clickHandler}
-            alt='fullscreen control'
-            value='fullscreen'
-            className='player-button full-screen'
-            src={fullscreenImg}
-          />
-
-      </div>
-    )
+function FullScreenButton(props) {
+  return (
+    <input
+      type='image'
+      onClick={props.clickHandler}
+      alt='fullscreen control'
+      value='fullscreen'
+      className='player-button full-screen'
+      src={fullscreenImg}
+    />
+  )
 }
 
 export default Player
