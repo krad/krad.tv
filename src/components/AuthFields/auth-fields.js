@@ -136,6 +136,26 @@ function PasswordInput(props) {
   )
 }
 
+function NameInput(props) {
+  const label = props.label || 'Name'
+  const name  = props.name || 'name'
+  return (
+    <div>
+      <label htmlFor='name'>{label}</label>
+      <FormField className='control has-icons-left'>
+        <input
+          className='input'
+          type='text'
+          name={name}
+          onChange={props.onChange}
+          value={props.value}
+        />
+        <NameIcon />
+      </FormField>
+    </div>
+  )
+}
+
 function FormField(props) {
   const controlClass  = props.className || 'control'
   const helpClass     = props.helpClass || 'help'
@@ -191,6 +211,14 @@ function FailureIcon(props) {
   )
 }
 
+function NameIcon(props) {
+  return (
+    <LeftIcon>
+      <i className='fas fa-address-card'></i>
+    </LeftIcon>
+  )
+}
+
 function LeftIcon(props) {
   return (
     <span className='icon is-small is-left'>
@@ -213,4 +241,4 @@ const validateEmail = (email) => {
 }
 
 
-export { TextInput, UsernameField, EmailInput, PasswordInput, validateEmail }
+export { TextInput, UsernameField, EmailInput, PasswordInput, NameInput, validateEmail }

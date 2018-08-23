@@ -117,7 +117,7 @@ class Player extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         onClick={this.handleMouseEnter}>
-        
+
         {loading}
         <Video
           ref={(child) => {this._child = child}}
