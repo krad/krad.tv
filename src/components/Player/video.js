@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom'
 import LoadingIndicator from '../../components/Loaders/spinner'
-import plainview from 'plainview/plainview'
+import plainview from '@krad/plainview'
 
 import playImg from './play-button.svg'
 import pauseImg from './pause-button.svg'

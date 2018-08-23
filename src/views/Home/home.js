@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {  Link } from 'react-router-dom'
 import LoadingIndicator from '../../components/Loaders/bubbles'
-import { makeTimeCode } from 'plainview/plainview'
+import { makeTimeCode } from '@krad/plainview'
 import moment from 'moment'
 import axios from 'axios'
 import './home.css'

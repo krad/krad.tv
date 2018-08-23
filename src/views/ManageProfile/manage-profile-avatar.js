@@ -42,11 +42,9 @@ class ManageProfileAvatar extends Component {
       this.setState({uploading: true, fileName: file.name})
       instance.post('/profile/avatar', formData, config)
       .then(res => {
-
         let user          = this.props.user
         user.profileImage = res.data.profileImage
         window.localStorage.setItem('user', JSON.stringify(user))
-
         this.setState({uploading: false, profileImage: res.data.profileImage})
       }).catch(err => {
         this.setState({uploading: false})
