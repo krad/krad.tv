@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@krad/plainview": "^1.3.10",
+    "@krad/plainview": "^1.3.11",
     "axios": "^0.18.0",
     "bulma": "^0.7.1",
     "bulma-extensions": "^2.2.1",
