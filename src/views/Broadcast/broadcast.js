@@ -204,9 +204,7 @@ function UserInfo(props) {
 }
 
 function UserProfile(props) {
-  let avatar
-  if (props.profileImage) { avatar = [process.env.REACT_APP_KRAD_ASSET_BASE_PATH, props.profileImage].join('') }
-  else { avatar = '/User.png' }
+  const avatar = props.profileImage || '/User.png'
 
   return (
     <div>
