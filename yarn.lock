@@ -2,16 +2,16 @@
 # yarn lockfile v1
 
 
-"@krad/plainview@^1.3.8":
-  version "1.3.8"
-  resolved "https://registry.yarnpkg.com/@krad/plainview/-/plainview-1.3.8.tgz#edfa2c03aefdf093ed63a4b939a8448f56a26a8e"
+"@krad/plainview@^1.3.9":
+  version "1.3.9"
+  resolved "https://registry.yarnpkg.com/@krad/plainview/-/plainview-1.3.9.tgz#8b8dff449a4dee62c54eb02e0aac5979bc4c5e28"
   dependencies:
-    "@krad/slugline" "^1.2.3"
+    "@krad/slugline" "^1.2.4"
     babel-polyfill "^6.26.0"
 
-"@krad/slugline@^1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@krad/slugline/-/slugline-1.2.3.tgz#00998e1f0e57d52feae5bf0cb07bf78727e681e8"
+"@krad/slugline@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@krad/slugline/-/slugline-1.2.4.tgz#51fefbd0e9dc03601ca9f6ba48130782ef9fab44"
 
 abab@^1.0.3:
   version "1.0.4"
