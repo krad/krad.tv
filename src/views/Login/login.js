@@ -1,24 +1,14 @@
 import React, { Component } from 'react';
 import MiddleBox from '../../components/MiddleBox/middle-box'
 import { EmailInput, PasswordInput, validateEmail } from '../../components/AuthFields/auth-fields'
-import axios from 'axios'
+import client from '../../network/client'
 import './login.css'
 
-const instance = axios.create({
-  baseURL: process.env.REACT_APP_KRAD_API_BASE_PATH,
-  timeout: 2000,
-  // withCredentials: true,
-  // credentials: 'same-origin',
-  transformResponse: (data) => {
-    return JSON.parse(data)
-  }
-})
-
-const responseInterceptor = (response) => {
-  return Promise.resolve(response)
-}
-const errorInterceptor = (error) => Promise.reject(error.response)
-instance.interceptors.response.use(responseInterceptor, errorInterceptor)
+// const responseInterceptor = (response) => {
+//   return Promise.resolve(response)
+// }
+// const errorInterceptor = (error) => Promise.reject(error.response)
+// instance.interceptors.response.use(responseInterceptor, errorInterceptor)
 
 
 class Login extends Component {
@@ -56,7 +46,7 @@ class Login extends Component {
         email: this.state.email,
         password: this.state.password
       }
-      instance.post('/login', payload).then(res => {
+      client.post('/login', payload).then(res => {
         window.localStorage.setItem('user', JSON.stringify(res.data))
         this.props.history.push(res.headers.location)
       }).catch(err => {

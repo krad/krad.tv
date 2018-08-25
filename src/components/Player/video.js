@@ -259,7 +259,7 @@ function Timecode(props) {
 
 function StateLabel(props) {
   return (
-    <span className='player-button status'>
+    <span className='player-button status-button'>
       <span className='icon has-text-danger'>
         <i className="fas fa-circle" />
         <span className='status-label'>LIVE</span>

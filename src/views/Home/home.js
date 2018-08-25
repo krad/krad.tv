@@ -75,10 +75,7 @@ function BroadcastCard(props) {
 
 function BroadcastPoster(props) {
   const stream        = props.stream || {}
-
-  let previewImage
-  if (stream.thumbnail) { previewImage = [process.env.REACT_APP_KRAD_ASSET_BASE_PATH, stream.thumbnail].join('/') }
-  else { previewImage = '/colorbars.jpg' }
+  const previewImage  = stream.thumbnail || '/colorbars.jpg'
 
   const url           = '/watch/' + props.id
   return (

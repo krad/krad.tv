@@ -68,6 +68,7 @@
   border-width: 0px 1px 0px 0px;
   outline: none;
   float: left;
+  text-align:center;
 }
 
 .timecode {
@@ -77,6 +78,11 @@
 
 .full-screen {
   float:right;
+}
+
+.status-button {
+  border-right: 0;
+  padding-left: 24px;
 }
 
 .status-label {
