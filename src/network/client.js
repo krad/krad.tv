@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const client = axios.create({
   baseURL: process.env.REACT_APP_KRAD_API_BASE_PATH,
-  timeout: 2000,
+  timeout: 5000,
   withCredentials: true,
   credentials: 'same-origin',
   transformResponse: (data) => {

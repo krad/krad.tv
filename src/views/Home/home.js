@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
-import {  Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import LoadingIndicator from '../../components/Loaders/bubbles'
 import { makeTimeCode } from '@krad/plainview'
+import client from '../../network/client'
 import moment from 'moment'
-import axios from 'axios'
 import './home.css'
 
-const instance = axios.create({
-  baseURL: process.env.REACT_APP_KRAD_API_BASE_PATH,
-  timeout: 2000,
-  transformResponse: (data) => {
-    return JSON.parse(data)
-  }
-})
 
 export default class Home extends Component {
 
@@ -24,7 +17,7 @@ export default class Home extends Component {
 
   componentDidMount() {
     this.setState({loading: true})
-    instance.get('/broadcasts')
+    client.get('/broadcasts')
     .then(res => {
       this.setState(Object.assign({loading: false, error: undefined}, res.data))
     })
