@@ -1,5 +1,9 @@
 /* * { font-family: 'Share Tech Mono', monospace } */
-html { background: #efefef url(background.png) }
+html {
+  background-image: url(background.png);
+  background-color: #efefef;
+  background-attachment: fixed;
+}
 hr { background: #ddd; }
 
 body {

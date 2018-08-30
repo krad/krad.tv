@@ -2,11 +2,11 @@
   color: #070707;
 }
 
-.broadcastTitle {
-  width: 250px;
+.broadcast-title {
+  /* width: 190px;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis; */
 }
 
 .user-subtitle {
@@ -19,13 +19,12 @@
 }
 
 .preview-time-wrapper {
-  float:right;
+  float:left;
   position: relative;
   margin-top: -23px;
 }
 
 .preview-time-info {
-  background: #000;
   background: rgba(0.0, 0.0, 0.0, 0.5);
   color: #fff;
   padding:.2em 1em;

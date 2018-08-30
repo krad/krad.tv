@@ -1,0 +1,37 @@
+.chat-box {
+  background: #fff;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+}
+
+.chat-header {
+  font-size: 18pt;
+  position: absolute;
+  top: 0;
+  padding: .4em;
+}
+
+.chat-header, .chat-submit { height: 60px; }
+.chat-messages, .chat-submit { position: absolute; width: 100%; }
+
+.chat-messages {
+  bottom: 70px;
+  top: 50px;
+  height: auto;
+  overflow: scroll;
+  display: flex;
+  flex-direction: column-reverse;
+  overflow-y: auto;
+  font-size: 14px;
+}
+
+.chat-submit {
+  bottom: 0;
+  padding: .8em;
+}
+
+.chat-messages span { margin: 4px; }
+.chat-messages .ts { font-size: 11px; }
+.chat-messages .username { font-weight: bold; }

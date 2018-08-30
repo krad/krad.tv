@@ -7,6 +7,7 @@ import Home from './views/Home/home'
 import Broadcast from './views/Broadcast/broadcast'
 import Channel from './views/Channel/channel'
 import Login from './views/Login/login'
+import Logout from './views/Logout/logout'
 import Signup from './views/Signup/signup'
 import ForgotPassword from './views/ForgotPassword/forgot-password'
 import ManageProfile from './views/ManageProfile/manage-profile'
@@ -21,13 +22,15 @@ class App extends Component {
     return (
       <div>
         <Header />
-        <main className='container '>
+        <main className='container'>
         <Router>
           <Switch>
             <Route exact path ='/' component={Home} />
-            <Route path='/watch/:broadcastId' component={Broadcast} />
+            <Route exact path='/watch/:broadcastId' component={Broadcast} />
+            <Route exact path='/watch/:broadcastId/room/:roomId' component={Broadcast} />
             <Route path='/channel/:channelId' component={Channel} />
             <Route path='/login' component={Login} />
+            <Route path='/logout' component={Logout} />
             <Route path='/signup' component={Signup} />
             <Route path='/profile' component={ManageProfile} />
             <Route path='/forgot-password' component={ForgotPassword}/>

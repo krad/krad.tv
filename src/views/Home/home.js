@@ -123,15 +123,10 @@ function BroadcastTimeCodeLive(props) {
 function BroadcastDetails(props) {
   const title         = props.title
   const broadcastURL  = '/watch/' + props.id
-
-  let avatar
-  if (props.profileImage) { avatar = [process.env.REACT_APP_KRAD_ASSET_BASE_PATH, props.profileImage].join('') }
-  else { avatar = '/User.png' }
-
-  const user = props.user
-  const channelURL = '/channel/' + user.username
-
-  const userAlt = [user.username, "'s profile image'"].join('')
+  const user          = props.user
+  const channelURL    = '/channel/' + user.username
+  const avatar        = user.profileImage || '/User.png'
+  const userAlt       = [user.username, "'s profile image'"].join('')
 
   return (
     <div className='media broadcast-details'>
@@ -144,7 +139,7 @@ function BroadcastDetails(props) {
       </div>
 
       <div className='media-content'>
-          <p className='broadcast-title title is-6'>
+          <p className='broadcast-title title is-6 is-size-6-mobile is-size-7-tablet is-size-6-desktop'>
             <Link to={broadcastURL}>{title}</Link>
           </p>
           <p className='subtitle is-7 user-subtitle'>
