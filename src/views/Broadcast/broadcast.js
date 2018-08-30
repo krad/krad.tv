@@ -42,7 +42,7 @@ class PlayerSetTop extends Component {
 
     if (this.state.broadcast) {
       const broadcast = this.state.broadcast
-      const stream = broadcast.stream
+      const stream    = broadcast.stream
 
       return (
         <div className='broadcast-set-top'>
