@@ -62,7 +62,7 @@ function BroadcastInfo(props) {
   if (stream && stream.type === 'VOD') {
     return <VODBroadcastInfo {...props} />
   } else {
-    return <ChatBox {...props} />
+    return (<ChatBox {...props} />)
   }
 }
 

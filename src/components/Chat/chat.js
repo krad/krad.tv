@@ -40,7 +40,7 @@ class ChatBox extends Component {
     if (this.state.message.length > 0) {
       this.setState({loading: true})
       this.socket.send(this.state.message)
-      this.setState({message:'', loading: false})      
+      this.setState({message:'', loading: false})
     }
   }
 
@@ -69,7 +69,7 @@ class ChatBox extends Component {
 
   render() {
     return (
-      <div className='chat-box containerx'>
+      <div className='chat-box container'>
         <div className='chat-header'>{this.props.title}</div>
 
         <MessagesBox {...this.state} />

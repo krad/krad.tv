@@ -1,15 +1,14 @@
 .chat-box {
   background: #fff;
   position: fixed;
-  height: 100%;
+  display: flex;
+  /* height: auto; */
   width: 100%;
-  top: 0;
+  height: 40%;
 }
 
 .chat-header {
   font-size: 18pt;
-  position: absolute;
-  top: 0;
   padding: .4em;
 }
 
@@ -17,19 +16,19 @@
 .chat-messages, .chat-submit { position: absolute; width: 100%; }
 
 .chat-messages {
-  bottom: 70px;
-  top: 50px;
-  height: auto;
+  font-size: 14px;
   overflow: scroll;
   display: flex;
   flex-direction: column-reverse;
+  bottom: 60px;
+  top: 60px;
   overflow-y: auto;
-  font-size: 14px;
 }
 
 .chat-submit {
   bottom: 0;
   padding: .8em;
+  width: 100%;
 }
 
 .chat-messages span { margin: 4px; }
