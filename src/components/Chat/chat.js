@@ -160,7 +160,17 @@ function submitButtonClass(loading) {
 }
 
 const websocketURL = (props) => {
-  let url = `${WEBSOCKET_BASE_PATH}/${props.broadcastId}`
+  let url
+  let basePath = WEBSOCKET_BASE_PATH
+  if (basePath.slice(0, 1) === '/') {
+    let loc = window.location
+    if (loc.protocol === "https:") { basePath = "wss:" }
+    else { basePath = "ws:" }
+    basePath += "//" + loc.host;
+    basePath += loc.pathname + WEBSOCKET_BASE_PATH
+  }
+
+  url = `${basePath}/${props.broadcastId}`
   if (props.roomId) { url += `/${props.roomId}` }
   return url
 }
