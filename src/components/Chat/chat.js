@@ -166,8 +166,8 @@ const websocketURL = (props) => {
     let loc = window.location
     if (loc.protocol === "https:") { basePath = "wss:" }
     else { basePath = "ws:" }
-    basePath += "//" + loc.host;
-    basePath += loc.pathname + WEBSOCKET_BASE_PATH
+    basePath += "//" + loc.host
+    basePath += WEBSOCKET_BASE_PATH
   }
 
   url = `${basePath}/${props.broadcastId}`
