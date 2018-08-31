@@ -4,7 +4,7 @@ export default class Header extends Component {
 
   render() {
     return (
-      <nav className='navbar is-transparent is-fixed-top'>
+      <nav className='navbar is-transparent'>
         <LeftSection />
       </nav>
     )
