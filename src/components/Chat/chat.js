@@ -7,12 +7,17 @@ const WEBSOCKET_BASE_PATH = process.env.REACT_APP_KRAD_WEBSOCKET_PATH
 class ChatBox extends Component {
   constructor(props) {
     super(props)
+
+    const userJSON = window.localStorage.getItem('user')
+    const user     = JSON.parse(userJSON)
+
     this.state = {
       messages: [],
       message: '',
       loading: undefined,
       ready: false,
-      chatWindowHeight: '0px'
+      chatWindowHeight: '0px',
+      user: user
     }
 
     this.handleConnect      = this.handleConnect.bind(this)

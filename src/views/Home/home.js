@@ -155,12 +155,19 @@ function BroadcastDetails(props) {
 }
 
 function BroadcastStats(props) {
-  let createdAt = moment(props.createdAt).fromNow()
+  let stats     = []
+
+  const stream = props.stream
+  if (stream.type && stream.type === 'LIVE') {
+    
+  } else {
+    stats.push(moment(props.createdAt).fromNow())
+  }
+
+  stats = stats.join(' ')
 
   return (
-    <span className='subtitle is-7'>
-      112k views &bull; {createdAt}
-    </span>
+    <span className='subtitle is-7'>{stats}</span>
   )
 }
 
