@@ -95,6 +95,7 @@ class Player extends Component {
 
   handleError(e) {
     this.setState({loading: false, error: e})
+    this._child.plainview.video.class = 'player player-with-error'
   }
 
   handleMute()    { this.setState({muted: true}) }
@@ -176,7 +177,7 @@ class Video extends Component {
   }
 
   componentDidMount() {
-    const video = ReactDOM.findDOMNode(this)
+    const video          = ReactDOM.findDOMNode(this)
     this.plainview.video = video
   }
 
@@ -185,15 +186,8 @@ class Video extends Component {
   }
 
   render() {
-    return (<video className={videoClassName(this.props)}></video>)
+    return (<video className='player'></video>)
   }
-}
-
-function videoClassName(props) {
-  if (props.error) {
-    return 'player player-with-error'
-  }
-  return 'player'
 }
 
 function PlayerControls(props) {
