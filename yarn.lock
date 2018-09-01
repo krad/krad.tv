@@ -2,16 +2,25 @@
 # yarn lockfile v1
 
 
-"@krad/plainview@^1.3.13":
-  version "1.3.13"
-  resolved "https://registry.yarnpkg.com/@krad/plainview/-/plainview-1.3.13.tgz#464c891f9a0c6384bf5b27eebcd029bb1694e5f4"
+"@krad/manson@0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@krad/manson/-/manson-0.0.2.tgz#702a87778d1dec37c92070daa8238ee6474b7672"
+
+"@krad/manson@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@krad/manson/-/manson-0.0.1.tgz#eafaabef87f6d836e6dc8bb1c8eaa79c4f354651"
+
+"@krad/plainview@^1.3.17":
+  version "1.3.17"
+  resolved "https://registry.yarnpkg.com/@krad/plainview/-/plainview-1.3.17.tgz#414ad0746de0404550b82029667f5ee6917c974a"
   dependencies:
-    "@krad/slugline" "^1.2.9"
+    "@krad/manson" "0.0.2"
+    "@krad/slugline" "^1.2.11"
     babel-polyfill "^6.26.0"
 
-"@krad/slugline@^1.2.9":
-  version "1.2.9"
-  resolved "https://registry.yarnpkg.com/@krad/slugline/-/slugline-1.2.9.tgz#16d366c15642ee6a99ca388c7b0bf92800feb3f9"
+"@krad/slugline@^1.2.11":
+  version "1.2.11"
+  resolved "https://registry.yarnpkg.com/@krad/slugline/-/slugline-1.2.11.tgz#c8bac1fc0a2e094c469c6b740d85efb71bc3bbfd"
 
 abab@^1.0.3:
   version "1.0.4"

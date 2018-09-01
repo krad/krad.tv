@@ -24,7 +24,8 @@ class Player extends Component {
           downloadPercent: 0,
             playedPercent: 0,
                   hovered: true,
-               fullscreen: false
+               fullscreen: false,
+                    error: undefined
         }
 
     this.handleClick                  = this.handleClick.bind(this)
@@ -35,6 +36,7 @@ class Player extends Component {
     this.handlePlay                   = this.handlePlay.bind(this)
     this.handlePause                  = this.handlePause.bind(this)
     this.handleReplay                 = this.handleReplay.bind(this)
+    this.handleError                  = this.handleError.bind(this)
     this.handleMute                   = this.handleMute.bind(this)
     this.handleUnmute                 = this.handleUnmute.bind(this)
     this.handleEnded                  = this.handleEnded.bind(this)
@@ -91,6 +93,10 @@ class Player extends Component {
   handlePause()   { this.setState({playing: false}) }
   handleReplay()  { this.setState({ended: false, playing: false})}
 
+  handleError(e) {
+    this.setState({loading: false, error: e})
+  }
+
   handleMute()    { this.setState({muted: true}) }
   handleUnmute()  { this.setState({muted: false}) }
   handleEnded()   {
@@ -108,9 +114,14 @@ class Player extends Component {
   }
 
   render() {
-    let loading
-    if (this.state.loading) { loading = (<LoadingIndicator />) }
-    else { loading = (<span></span>)}
+
+    let message
+    if (this.state.error) {
+      message = (<PlaybackError {...this.state.error} />)
+    } else {
+      if (this.state.loading) { message = (<LoadingIndicator />) }
+      else { message = (<span></span>)}
+    }
 
     return (
       <div className='player-wrapper'
@@ -118,7 +129,8 @@ class Player extends Component {
         onMouseLeave={this.handleMouseLeave}
         onClick={this.handleMouseEnter}>
 
-        {loading}
+        {message}
+
         <Video
           ref={(child) => {this._child = child}}
           url={this.props.url}
@@ -131,8 +143,15 @@ class Player extends Component {
           onMute={this.handleMute}
           onUnmute={this.handleUnmute}
           onEnded={this.handleEnded}
+          onError={this.handleError}
+          error={this.state.error}
         />
-        <PlayerControls type={this.props.type} {...this.state} clickHandler={this.handleClick} />
+
+        <PlayerControls
+          type={this.props.type}
+          clickHandler={this.handleClick}
+          {...this.state}
+        />
       </div>
     )
   }
@@ -143,12 +162,14 @@ class Video extends Component {
   constructor(props) {
     super(props)
     this.plainview                    = new plainview(props.url)
+    this.plainview.logLevel           = 5
     this.plainview.onCanPlay          = props.onCanPlay
     this.plainview.onPlayProgress     = props.onPlayProgress
     this.plainview.onDownloadProgress = props.onDownloadProgress
     this.plainview.onPlay             = props.onPlay
     this.plainview.onPause            = props.onPause
     this.plainview.onReplay           = props.onReplay
+    this.plainview.onError            = props.onError
     this.plainview.onMute             = props.onMute
     this.plainview.onUnmute           = props.onUnmute
     this.plainview.onEnded            = props.onEnded
@@ -164,8 +185,15 @@ class Video extends Component {
   }
 
   render() {
-    return (<video className='player'></video>)
+    return (<video className={videoClassName(this.props)}></video>)
   }
+}
+
+function videoClassName(props) {
+  if (props.error) {
+    return 'player player-with-error'
+  }
+  return 'player'
 }
 
 function PlayerControls(props) {
@@ -200,7 +228,7 @@ function LivePlayerControls(props) {
   return (
     <div>
       <MuteButton {...props} />
-      <StateLabel />
+      <StateLabel {...props} />
       <FullScreenButton />
     </div>)
 }
@@ -258,11 +286,16 @@ function Timecode(props) {
 }
 
 function StateLabel(props) {
+  let label = 'LIVE'
+  if (props.error) {
+    label = 'ERROR'
+  }
+
   return (
     <span className='player-button status-button'>
       <span className='icon has-text-danger'>
         <i className="fas fa-circle" />
-        <span className='status-label'>LIVE</span>
+        <span className='status-label'>{label}</span>
       </span>
     </span>
   )
@@ -278,6 +311,16 @@ function FullScreenButton(props) {
       className='player-button full-screen'
       src={fullscreenImg}
     />
+  )
+}
+
+function PlaybackError(props) {
+  return(
+    <div className='playback-error-message'>
+      <h1>Playback Error</h1>
+      <p>Something went wrong, sorry about that.</p>
+      <p>Please try again later</p>
+    </div>
   )
 }
 
