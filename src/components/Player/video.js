@@ -221,6 +221,7 @@ function VODPlayerControls(props) {
 function LivePlayerControls(props) {
   return (
     <div>
+      <PlayButton {...props} />
       <MuteButton {...props} />
       <StateLabel {...props} />
       <FullScreenButton />
