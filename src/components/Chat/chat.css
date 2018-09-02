@@ -1,15 +1,7 @@
-.broadcast-set-top {
-  display: flex;
-  flex-direction: column;
-}
-
-.broadcast-set-top {
-  min-height: 100vh;
-}
-
 .chat-box {
   background: #fff;
-  flex: 1
+  position: relative;
+  width: 100%;
 }
 
 .chat-header {
@@ -21,23 +13,20 @@
 }
 
 .chat-messages {
+  padding-top: 1em;
   font-size: 14px;
   padding-left: .8em;
+  width: 100%;
   overflow: scroll;
   display: flex;
-  flex: 1;
   flex-direction: column-reverse;
-  width: 100%;
-  /* top: 0; */
-  /* position: absolute; */
 }
 
 .chat-submit {
-  /* height: 60px; */
+  height: 53px;
   padding: .8em;
   width: 100%;
   bottom: 60px;
-  position: absolute;
 }
 
 .chat-messages span { margin: 4px; }

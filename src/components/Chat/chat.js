@@ -16,7 +16,6 @@ class ChatBox extends Component {
       message: '',
       loading: undefined,
       ready: false,
-      chatWindowHeight: '0px',
       user: user
     }
 
@@ -26,7 +25,6 @@ class ChatBox extends Component {
     this.handleDisconnect   = this.handleDisconnect.bind(this)
     this.handleSubmit       = this.handleSubmit.bind(this)
     this.handleChange       = this.handleChange.bind(this)
-    this.handleWindowResize = this.handleWindowResize.bind(this)
   }
 
   componentDidMount() {
@@ -36,14 +34,10 @@ class ChatBox extends Component {
     this.socket.onmessage = this.handleMessage
     this.socket.onerror   = this.handleError
     this.socket.onclose   = this.handleDisconnect
-
-    this.handleWindowResize()
-    window.addEventListener('resize', this.handleWindowResize)
   }
 
   componentWillUnmount() {
     this.socket.close()
-    window.removeEventListener('resize', this.handleWindowResize)
   }
 
   handleSubmit(e) {
@@ -78,20 +72,14 @@ class ChatBox extends Component {
 
   }
 
-  handleWindowResize() {
-    const header          = document.getElementsByClassName('chat-header')[0]
-    const submit          = document.getElementsByClassName('chat-submit')[0]
-    const height          = (submit.offsetTop - header.offsetTop) - 55
-    const heightTag       = `${height}px`
-    this.setState({chatWindowHeight: heightTag})
-  }
 
   render() {
     return (
       <div className='chat-box'>
         <div className='chat-header'>{this.props.title}</div>
 
-        <MessagesBox {...this.state} />
+        <MessagesBox {...this.state} {...this.props}/>
+
         <SubmitForm
           message={this.state.message}
           loading={this.state.loading}
@@ -106,7 +94,7 @@ class ChatBox extends Component {
 
 function MessagesBox(props) {
   return (
-    <div className='control chat-messages' style={{height: props.chatWindowHeight}}>
+    <div className='control chat-messages' style={{height: props.playerHeight}}>
       <Messages {...props} />
     </div>
   )

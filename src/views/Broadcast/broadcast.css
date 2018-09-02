@@ -2,3 +2,13 @@
   background: #d8d8d8;
   object-fit: fill;
 }
+
+.broadcast-page {
+  min-height: 100vh;
+}
+
+.player-set-top {
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+}

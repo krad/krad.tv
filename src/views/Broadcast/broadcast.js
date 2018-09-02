@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Video from '../../components/Player/video'
 import LoadingIndicator from '../../components/Loaders/bubbles'
+import ErrorMessage from '../Error/error'
 import VODBroadcastInfo from './broadcast-info'
 import ChatBox from '../../components/Chat/chat'
 import client from '../../network/client'
@@ -18,7 +19,14 @@ class PlayerSetTop extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {broadcast: undefined, loading: false}
+    this.state = {
+      broadcast: undefined,
+      loading: false,
+      playerHeight: '0px'
+    }
+
+    this.handleWindowResize = this.handleWindowResize.bind(this)
+    window.addEventListener('resize', this.handleWindowResize)
   }
 
   componentDidMount() {
@@ -26,9 +34,17 @@ class PlayerSetTop extends Component {
     client.get('/broadcasts/'+this.props.broadcastId)
     .then(res => {
       this.setState({loading: false, error: undefined, broadcast: res.data})
+      this.handleWindowResize()
     }).catch(err => {
       this.setState({loading: false, error: err})
     })
+  }
+
+  handleWindowResize() {
+    const player    = document.getElementsByClassName('player-wrapper')[0]
+    const heightTag = `${(window.innerHeight - player.offsetHeight) - 155}px`
+    console.log(heightTag);
+    this.setState({playerHeight: heightTag})
   }
 
   render() {
@@ -45,9 +61,9 @@ class PlayerSetTop extends Component {
       const stream    = broadcast.stream
 
       return (
-        <div className='broadcast-set-top'>
+        <div className='player-set-top'>
           <Video {...stream} />
-          <BroadcastInfo {...this.props} {...broadcast}/>
+          <BroadcastInfo {...this.props} {...broadcast} playerHeight={this.state.playerHeight}/>
         </div>
       )
     }
@@ -64,13 +80,4 @@ function BroadcastInfo(props) {
   } else {
     return (<ChatBox {...props} />)
   }
-}
-
-function ErrorMessage(props) {
-  return (
-    <section className='section'>
-      <h1 className='title'>Something went wrong.</h1>
-      <h3 className='subtitle'>Ooohhh noooooo!!!</h3>
-    </section>
-  )
 }
