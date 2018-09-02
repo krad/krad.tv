@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import LoadingIndicator from '../../components/Loaders/bubbles'
 import ErrorMessage, { NoResultsErrorMessage } from '../Error/error'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { makeTimeCode } from '@krad/plainview'
 import client from '../../network/client'
 import moment from 'moment'
@@ -120,7 +121,7 @@ function BroadcastTimeCode(props) {
 function BroadcastTimeCodeLive(props) {
   return (
     <span className='live-time-code'>
-      <span><i className="live-icon fas fa-circle"/></span>
+      <span className='live-icon'><FontAwesomeIcon icon='circle'/></span>
       <span>LIVE</span>
     </span>
   )

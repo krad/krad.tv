@@ -4,13 +4,6 @@ import { EmailInput, PasswordInput, validateEmail } from '../../components/AuthF
 import client from '../../network/client'
 import './login.css'
 
-// const responseInterceptor = (response) => {
-//   return Promise.resolve(response)
-// }
-// const errorInterceptor = (error) => Promise.reject(error.response)
-// instance.interceptors.response.use(responseInterceptor, errorInterceptor)
-
-
 class Login extends Component {
   constructor(props) {
     super(props)

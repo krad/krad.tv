@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Header from './components/Header/header'
-// import Footer from './components/Footer/footer'
 
 import Home from './views/Home/home'
 import Broadcast from './views/Broadcast/broadcast'
@@ -14,8 +13,18 @@ import ManageProfile from './views/ManageProfile/manage-profile'
 import Help from './views/help'
 import Terms from './views/terms'
 import Privacy from './views/privacy'
-
 import './App.css';
+
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faUser, faKey, faCheck, faEnvelope, faExclamationTriangle,
+         faAddressCard, faCircle, faThumbsUp, faThumbsDown, faFlag, faUpload, faSync } from '@fortawesome/free-solid-svg-icons'
+
+library.add(
+  faUser, faKey, faCheck, faEnvelope,
+  faExclamationTriangle, faAddressCard,
+  faCircle, faThumbsUp, faThumbsDown, faFlag, faUpload, faSync
+)
+
 
 class App extends Component {
   render() {

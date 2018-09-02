@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './manage-profile-avatar.css'
 
@@ -110,7 +111,7 @@ function FileUploadButton(props) {
 
         <span className='file-cta'>
           <span className='file-icon'>
-            <i className='fas fa-upload' />
+            <FontAwesomeIcon icon='upload' />
           </span>
           <span className='file-label'>{label}</span>
         </span>

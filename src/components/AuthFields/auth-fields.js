@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios'
 
 const instance = axios.create({
@@ -174,7 +175,7 @@ function FormField(props) {
 function EmailIcon(props) {
   return (
     <LeftIcon>
-      <i className='fas fa-envelope'></i>
+      <FontAwesomeIcon icon='envelope' />
     </LeftIcon>
   )
 }
@@ -182,7 +183,7 @@ function EmailIcon(props) {
 function UserIcon(props) {
   return (
     <LeftIcon>
-      <i className='fas fa-user'></i>
+      <FontAwesomeIcon icon='user' />
     </LeftIcon>
   )
 }
@@ -190,7 +191,7 @@ function UserIcon(props) {
 function PasswordIcon(props) {
   return (
     <LeftIcon>
-      <i className='fas fa-key'></i>
+      <FontAwesomeIcon icon='key' />
     </LeftIcon>
   )
 }
@@ -198,7 +199,7 @@ function PasswordIcon(props) {
 function SuccessIcon(props) {
   return (
     <RightIcon>
-      <i className='fas fa-check'></i>
+      <FontAwesomeIcon icon='check' />
     </RightIcon>
   )
 }
@@ -206,7 +207,7 @@ function SuccessIcon(props) {
 function FailureIcon(props) {
   return (
     <RightIcon>
-      <i className='fas fa-exclamation-triangle'></i>
+      <FontAwesomeIcon icon='exclamation-triangle' />
     </RightIcon>
   )
 }
@@ -214,7 +215,7 @@ function FailureIcon(props) {
 function NameIcon(props) {
   return (
     <LeftIcon>
-      <i className='fas fa-address-card'></i>
+      <FontAwesomeIcon icon='address-card' />
     </LeftIcon>
   )
 }

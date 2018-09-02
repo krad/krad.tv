@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import LoadingIndicator from '../../components/Loaders/eqwave'
+import ErrorMessage from '../Error/error'
 import axios from 'axios'
 import moment from 'moment'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './comments.css'
 
 const instance = axios.create({
@@ -241,30 +243,20 @@ function CommentReactionControls(props) {
   return (
     <div className='comment-reactions'>
       <a className='reaction'>
-        <span className='icon is-small'><i className='fas fa-thumbs-up'> </i></span>
+        <span className='icon is-small'><FontAwesomeIcon icon='thumbs-up' /></span>
       </a>
 
       <a className='reaction'>
-        <span className='icon is-small'><i className='fas fa-thumbs-down'> </i></span>
+        <span className='icon is-small'><FontAwesomeIcon icon='thumbs-down' /></span>
       </a>
 
       <a className='reaction'>
-        <span className='icon is-small'><i className='fas fa-flag'> </i></span>
+        <span className='icon is-small'><FontAwesomeIcon icon='flag' /></span>
       </a>
 
       <a className='reaction'>
         <span>REPLY</span>
       </a>
     </div>
-  )
-}
-
-
-function ErrorMessage(props) {
-  return (
-    <section className='section'>
-      <h1 className='title'>Something went wrong.</h1>
-      <h3 className='subtitle'>Ooohhh noooooo!!!</h3>
-    </section>
   )
 }

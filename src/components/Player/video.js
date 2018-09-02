@@ -9,6 +9,7 @@ import muteImg from './unmute.svg'
 import unmuteImg from './mute.svg'
 import reloadImg from './reload.svg'
 import fullscreenImg from './fullscreen.svg'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './player.css'
 
@@ -96,7 +97,7 @@ class Player extends Component {
   handleError(e) {
     this.setState({loading: false, error: e})
     if (this._child.plainview) {
-      this._child.plainview.video.className = 'player player-with-error'      
+      this._child.plainview.video.className = 'player player-with-error'
     }
   }
 
@@ -299,7 +300,7 @@ function StateLabel(props) {
   return (
     <span className='player-button status-button'>
       <span className='icon has-text-danger'>
-        <i className="fas fa-circle" />
+        <FontAwesomeIcon icon='circle' />
         <span className='status-label'>{label}</span>
       </span>
     </span>

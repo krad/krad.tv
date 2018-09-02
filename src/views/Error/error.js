@@ -1,4 +1,5 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function ErrorMessage(props) {
   if (props.error.code) {
@@ -60,7 +61,7 @@ function RetryButton(props) {
   return (
     <a className='button' onClick={props.retry}>
       <span className='icon'>
-        <i className='fa fa-sync'></i>
+        <FontAwesomeIcon icon='sync' />
       </span>
       <span>Retry</span>
     </a>

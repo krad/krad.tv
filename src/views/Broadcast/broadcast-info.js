@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {  Link } from 'react-router-dom'
 import moment from 'moment'
 import client from '../../network/client'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import Comments from '../../components/Comments/comments'
 
 function VODBroadcastInfo(props) {
@@ -119,14 +120,14 @@ function ReactionButton(props) {
 
 function ReactionIcon(props) {
   const icons = {
-    like: 'fas fa-thumbs-up',
-    dislike: 'fas fa-thumbs-down',
-    report: 'fas fa-flag',
+    like: (<FontAwesomeIcon icon='thumbs-up' />),
+    dislike: (<FontAwesomeIcon icon='thumbs-down' />),
+    report: (<FontAwesomeIcon icon='flag' />),
   }
 
   return (
     <span className='icon is-small'>
-      <i className={icons[props.name]} />
+      {icons[props.name]}
     </span>
   )
 }
