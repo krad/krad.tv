@@ -42,6 +42,7 @@ class Player extends Component {
     this.handleEnded                  = this.handleEnded.bind(this)
     this.handleMouseEnter             = this.handleMouseEnter.bind(this)
     this.handleMouseLeave             = this.handleMouseLeave.bind(this)
+    this.handleTap                    = this.handleTap.bind(this)
   }
 
   handleClick(e) {
@@ -64,7 +65,6 @@ class Player extends Component {
         break
       case 'fullscreen':
         if (this._child.plainview) {
-          console.log(this._child.plainview);
           this._child.plainview.requestFullScreen()
         }
         break
@@ -95,7 +95,9 @@ class Player extends Component {
 
   handleError(e) {
     this.setState({loading: false, error: e})
-    this._child.plainview.video.class = 'player player-with-error'
+    if (this._child.plainview) {
+      this._child.plainview.video.className = 'player player-with-error'      
+    }
   }
 
   handleMute()    { this.setState({muted: true}) }
@@ -114,6 +116,12 @@ class Player extends Component {
     }
   }
 
+  handleTap(e) {
+    if (this.state.playing && e.target.className === 'player') {
+      this.setState({hovered: !this.state.hovered})
+    }
+  }
+
   render() {
 
     let message
@@ -128,7 +136,7 @@ class Player extends Component {
       <div className='player-wrapper'
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        onClick={this.handleMouseEnter}>
+        onTouchEnd={this.handleTap}>
 
         {message}
 
@@ -186,7 +194,9 @@ class Video extends Component {
   }
 
   render() {
-    return (<video className='player'></video>)
+    return (
+      <video className='player'></video>
+    )
   }
 }
 
@@ -213,7 +223,7 @@ function VODPlayerControls(props) {
           <PlayButton {...props} />
           <MuteButton {...props} />
           <Timecode {...props} />
-          <FullScreenButton />
+          <FullScreenButton {...props} />
         </div>
   )
 }
@@ -224,7 +234,7 @@ function LivePlayerControls(props) {
       <PlayButton {...props} />
       <MuteButton {...props} />
       <StateLabel {...props} />
-      <FullScreenButton />
+      <FullScreenButton {...props} />
     </div>)
 }
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import LoadingIndicator from '../../components/Loaders/bubbles'
+import ErrorMessage, { NoResultsErrorMessage } from '../Error/error'
 import { makeTimeCode } from '@krad/plainview'
 import client from '../../network/client'
 import moment from 'moment'
@@ -11,11 +12,15 @@ export default class Home extends Component {
 
   constructor(props) {
     super(props)
-    // console.log(process.env.REACT_APP_KRAD_API_BASE_PATH);
-    this.state = {loading: false }
+    this.state            = {loading: false }
+    this.fetchBroadcasts  = this.fetchBroadcasts.bind(this)
   }
 
   componentDidMount() {
+    this.fetchBroadcasts()
+  }
+
+  fetchBroadcasts() {
     this.setState({loading: true})
     client.get('/broadcasts')
     .then(res => {
@@ -32,14 +37,15 @@ export default class Home extends Component {
     }
 
     if (this.state.error) {
-      return <ErrorMessage error={this.state.error} />
+      return (
+        <ErrorMessage error={this.state.error} retry={this.fetchBroadcasts} />)
     }
 
     if (this.state.broadcasts) {
         return <BroadcastList broadcasts={this.state.broadcasts} />
     }
 
-    return <EmptyMessage />
+    return <NoResultsErrorMessage />
   }
 }
 
@@ -159,7 +165,7 @@ function BroadcastStats(props) {
 
   const stream = props.stream
   if (stream.type && stream.type === 'LIVE') {
-    
+
   } else {
     stats.push(moment(props.createdAt).fromNow())
   }
@@ -168,25 +174,5 @@ function BroadcastStats(props) {
 
   return (
     <span className='subtitle is-7'>{stats}</span>
-  )
-}
-
-function EmptyMessage() {
-  return (
-    <section className='section'>
-      <div className='container'>
-        <h1 className='title'>No Broadcasts Found</h1>
-        <h3 className='subtitle'>Please try again...</h3>
-      </div>
-    </section>
-  )
-}
-
-function ErrorMessage(props) {
-  return (
-    <section className='section'>
-      <h1 className='title'>Something went wrong.</h1>
-      <h3 className='subtitle'>Ooohhh noooooo!!!</h3>
-    </section>
   )
 }
