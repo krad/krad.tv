@@ -17,7 +17,6 @@ const instance = axios.create({
 class ManageProfileAvatar extends Component {
   constructor(props) {
     super(props)
-    console.log(props);
     this.state          = {uploading: false, profileImage: props.user.profileImage}
     this.fileInput      = React.createRef()
     this.handleProgress = this.handleProgress.bind(this)

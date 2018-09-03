@@ -43,7 +43,6 @@ class PlayerSetTop extends Component {
   handleWindowResize() {
     const player    = document.getElementsByClassName('player-wrapper')[0]
     const heightTag = `${(window.innerHeight - player.offsetHeight) - 155}px`
-    console.log(heightTag);
     this.setState({playerHeight: heightTag})
   }
 
