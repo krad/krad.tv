@@ -1,24 +1,14 @@
 import React, { Component } from 'react'
 import MiddleBox from '../../components/MiddleBox/middle-box'
 import { UsernameField, EmailInput, PasswordInput, validateEmail } from '../../components/AuthFields/auth-fields'
-import axios from 'axios'
+import AuthenticationService from '../../services/auth-service'
 import './signup.css'
 
-const instance = axios.create({
-  baseURL: process.env.REACT_APP_KRAD_API_BASE_PATH,
-  timeout: 2000,
-  withCredentials: true,
-  credentials: 'same-origin',
-  transformResponse: (data) => {
-    return JSON.parse(data)
-  }
-})
-
-const responseInterceptor = (response) => {
-  return Promise.resolve(response)
-}
-const errorInterceptor = (error) => Promise.reject(error.response)
-instance.interceptors.response.use(responseInterceptor, errorInterceptor)
+// const responseInterceptor = (response) => {
+//   return Promise.resolve(response)
+// }
+// const errorInterceptor = (error) => Promise.reject(error.response)
+// instance.interceptors.response.use(responseInterceptor, errorInterceptor)
 
 
 class Signup extends Component {
@@ -56,20 +46,17 @@ class Signup extends Component {
     e.preventDefault()
     if (this.state.ready) {
       this.setState({loading: true})
-      const payload = {
-        email: this.state.email,
-        username: this.state.username,
-        password: this.state.password,
-        passwordConfirmation: this.state.passwordConfirm
-      }
-      instance.post('/signup', payload).then(res => {
-        window.localStorage.setItem('user', JSON.stringify(res.data))
-          this.props.history.push(res.headers.location)
+
+      const email           = this.state.email
+      const username        = this.state.username
+      const password        = this.state.password
+      const passwordConfirm = this.state.passwordConfirm
+
+      AuthenticationService.signup(email, username, password, passwordConfirm)
+      .then(res => {
+        this.props.history.push(res.url)
       }).catch(err => {
-        let msg
-        if (err.data && err.data.error) { msg = err.data.error }
-        else { msg = 'Something went wrong '}
-        this.setState({loading: false, error: msg, ready: false})
+        this.setState({loading: false, error: err, ready: false})
       })
     }
   }

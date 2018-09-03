@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import LoadingIndicator from '../../components/Loaders/bubbles'
-import client from '../../network/client'
+import AuthenticationService from '../../services/auth-service'
 
 class Logout extends Component {
   constructor(props) {
@@ -9,10 +9,9 @@ class Logout extends Component {
   }
 
   componentDidMount() {
-    client.post('/logout', {})
-    .then(_ => {
-      window.localStorage.removeItem('user')
-      this.props.history.push('/')
+    AuthenticationService.logout()
+    .then(res => {
+      this.props.history.push(res.url)
     }).catch(err => {
       console.log(err);
     })

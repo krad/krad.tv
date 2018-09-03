@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MiddleBox from '../../components/MiddleBox/middle-box'
 import { EmailInput, PasswordInput, validateEmail } from '../../components/AuthFields/auth-fields'
-import client from '../../network/client'
+import AuthenticationService from '../../services/auth-service'
 import './login.css'
 
 class Login extends Component {
@@ -35,20 +35,14 @@ class Login extends Component {
     e.preventDefault()
     if (this.state.ready) {
       this.setState({loading: true})
-      const payload = {
-        email: this.state.email,
-        password: this.state.password
-      }
-      client.post('/login', payload).then(res => {
-        window.localStorage.setItem('user', JSON.stringify(res.data))
-        this.props.history.push(res.headers.location)
+      const email    = this.state.email
+      const password = this.state.password
+      AuthenticationService.login(email, password)
+      .then(res => {
+        this.props.history.push(res.url)
       }).catch(err => {
-        let msg
-        if (err.data && err.data.error) { msg = err.data.error }
-        else { msg = 'Something went wrong '}
-        this.setState({loading: false, error: msg})
+        this.setState({loading: false, error: err})
       })
-
     }
   }
 
