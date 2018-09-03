@@ -190,6 +190,10 @@ class Video extends Component {
     this.plainview.video = video
   }
 
+  componentWillUnmount() {
+    this.plainview.stop()
+  }
+
   shouldComponentUpdate() {
     return false
   }
