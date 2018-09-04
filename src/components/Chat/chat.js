@@ -94,7 +94,7 @@ class ChatBox extends Component {
 
 function MessagesBox(props) {
   return (
-    <div className='control chat-messages' style={{height: props.playerHeight}}>
+    <div className='control chat-messages'>
       <Messages {...props} />
     </div>
   )

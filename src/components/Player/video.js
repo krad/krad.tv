@@ -191,7 +191,7 @@ class Video extends Component {
   }
 
   componentWillUnmount() {
-    this.plainview.stop()
+    this.plainview.pause()
   }
 
   shouldComponentUpdate() {

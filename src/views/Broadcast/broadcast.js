@@ -22,11 +22,7 @@ class PlayerSetTop extends Component {
     this.state = {
       broadcast: undefined,
       loading: false,
-      playerHeight: '0px'
     }
-
-    this.handleWindowResize = this.handleWindowResize.bind(this)
-    window.addEventListener('resize', this.handleWindowResize)
   }
 
   componentDidMount() {
@@ -34,19 +30,12 @@ class PlayerSetTop extends Component {
     client.get('/broadcasts/'+this.props.broadcastId)
     .then(res => {
       this.setState({loading: false, error: undefined, broadcast: res.data})
-      this.handleWindowResize()
     }).catch(err => {
       this.setState({loading: false, error: err})
     })
   }
 
-  handleWindowResize() {
-    const player    = document.getElementsByClassName('player-wrapper')[0]
-    const heightTag = `${(window.innerHeight - player.offsetHeight) - 155}px`
-    this.setState({playerHeight: heightTag})
-  }
-
-  render() {
+  render() {    console.log(this.state.error);
     if (this.state.loading) {
       return <LoadingIndicator />
     }
@@ -61,8 +50,13 @@ class PlayerSetTop extends Component {
 
       return (
         <div className='player-set-top'>
-          <Video {...stream} />
-          <BroadcastInfo {...this.props} {...broadcast} playerHeight={this.state.playerHeight}/>
+          <div className='left-section'>
+            <Video {...stream} />
+          </div>
+
+          <div className='right-section'>
+            <BroadcastInfo {...this.props} {...broadcast} />
+          </div>
         </div>
       )
     }

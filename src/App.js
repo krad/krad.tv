@@ -10,6 +10,7 @@ import Logout from './views/Logout/logout'
 import Signup from './views/Signup/signup'
 import ForgotPassword from './views/ForgotPassword/forgot-password'
 import ManageProfile from './views/ManageProfile/manage-profile'
+import Submission from './views/Submission/submission'
 import Help from './views/help'
 import Terms from './views/terms'
 import Privacy from './views/privacy'
@@ -30,9 +31,9 @@ library.add(
 class App extends Component {
   render() {
     return (
-      <div className='app-wrapper'>
+      <div>
         <Header />
-        <main className='container'>
+        <main>
         <Router>
           <Switch>
             <Route exact path ='/' component={Home} />
@@ -42,15 +43,15 @@ class App extends Component {
             <Route path='/login' component={Login} />
             <Route path='/logout' component={Logout} />
             <Route path='/signup' component={Signup} />
-            <AuthenticatedRoute path='/profile' component={ManageProfile} />
             <Route path='/forgot-password' component={ForgotPassword}/>
+            <AuthenticatedRoute path='/profile' component={ManageProfile} />
+            <AuthenticatedRoute path='/submit' component={Submission} />
             <Route path='/help' component={Help} />
             <Route path='/tos' component={Terms} />
             <Route path='/privacy' component={Privacy} />
           </Switch>
         </Router>
         </main>
-        {/* <Footer /> */}
       </div>
     );
   }
