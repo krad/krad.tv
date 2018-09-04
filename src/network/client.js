@@ -6,7 +6,11 @@ const client = axios.create({
   withCredentials: true,
   credentials: 'same-origin',
   transformResponse: (data) => {
-    return JSON.parse(data)
+    try {
+      return JSON.parse(data)
+    } catch (e) {
+      return undefined
+    }
   }
 })
 

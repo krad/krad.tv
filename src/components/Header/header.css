@@ -1,6 +1,7 @@
 .rounded { border-radius: 50%; }
 .search-field { width: 100%; }
 .user-fullname { padding-bottom: 3px;}
+.navbar-burger:hover { background-color: #fff; }
 
 @media only screen and (max-width: 768px) {
   .search-item { width: 60%; }
