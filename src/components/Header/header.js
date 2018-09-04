@@ -134,6 +134,7 @@ function AuthenticatedRightSection(props) {
 
       <div className='navbar-dropdown'>
         <a className='navbar-item' href='/profile'>Manage Profile</a>
+        <a className='navbar-item' href={`/channel/${user.username}`}>My Channel</a>
         <hr className='navbar-divider' />
         <a className='navbar-item' href='/logout'>Logout</a>
       </div>

@@ -7,22 +7,20 @@ function MiddleBox(props) {
   let titleWidth
   switch (props.width) {
     case 'wide':
-      boxWidth   = 'column is-10 is-offset-1'
-      titleWidth = 'title box-title is-5'
+      boxWidth   = 'column is-10 is-5'
+      titleWidth = 'title is-5 box-title'
       break;
     default:
-      boxWidth   = 'column is-6 is-offset-3'
+      boxWidth   = 'column is-5'
       titleWidth = 'title is-5 box-title'
   }
 
   return (
-    <div className='section'>
-      <div className='container'>
-        <div className={boxWidth}>
-          <h3 className={titleWidth}>{props.title}</h3>
-          <div className='box'>
-            {props.children}
-          </div>
+    <div className='columns is-centered middle-box'>
+      <div className={boxWidth}>
+        <h3 className={titleWidth}>{props.title}</h3>
+        <div className='box'>
+          {props.children}
         </div>
       </div>
     </div>

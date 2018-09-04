@@ -27,7 +27,6 @@ library.add(
   faUpload, faSync, faSearch
 )
 
-
 class App extends Component {
   render() {
     return (
