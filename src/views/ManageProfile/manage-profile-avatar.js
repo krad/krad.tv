@@ -1,18 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import AuthenticationService from '../../services/auth-service'
 
 import './manage-profile-avatar.css'
-
-const instance = axios.create({
-  baseURL: process.env.REACT_APP_KRAD_API_BASE_PATH,
-  timeout: 8000,
-  withCredentials: true,
-  credentials: 'same-origin',
-  transformResponse: (data) => {
-    return JSON.parse(data)
-  }
-})
 
 class ManageProfileAvatar extends Component {
   constructor(props) {
@@ -40,15 +30,11 @@ class ManageProfileAvatar extends Component {
       }
 
       this.setState({uploading: true, fileName: file.name})
-      instance.post('/profile/avatar', formData, config)
+      AuthenticationService.uploadAvatar(formData, config)
       .then(res => {
-        let user          = this.props.user
-        user.profileImage = res.data.profileImage
-        window.localStorage.setItem('user', JSON.stringify(user))
-        this.setState({uploading: false, profileImage: res.data.profileImage})
+        this.setState({uploading: false, profileImage: res.profileImage})
       }).catch(err => {
-        this.setState({uploading: false})
-        console.log(err);
+        this.setState({uploading: false, error: err})
       })
     }
   }
@@ -59,13 +45,15 @@ class ManageProfileAvatar extends Component {
         <div className='profile-image'>
           <UserProfileImage {...this.state}/>
         </div>
+
+        <ProgressBar {...this.state} />
+
         <div className='upload-button'>
           <FileUploadButton
             fileInput={this.fileInput}
             onChange={this.handleChange}
             fileName={this.state.fileName} />
         </div>
-        <ProgressBar {...this.state} />
       </div>
     )
   }
@@ -85,7 +73,7 @@ function ProgressBar(props) {
 
   let bar
   if (props.uploading) {
-    bar = <progress className='upload-progress' value={props.uploadProgress} max='100'></progress>
+    bar = <progress className='upload-progress progress is-small is-info' value={props.uploadProgress} max='100'></progress>
   } else {
     bar = <div></div>
   }

@@ -9,13 +9,10 @@
   max-height: calc(100vh - 52px);
 }
 
-
 @media only screen and (max-width: 768px) {
   .player-set-top {
     display: flex;
-    align-items: stretch;
     flex-direction: column;
-    /* min-height: calc(100vh - 52px); */
     max-height: calc(100vh - 52px);
  }
 
@@ -26,9 +23,7 @@
 @media only screen and (min-width: 769px) {
   .player-set-top {
     display: flex;
-    align-items: stretch;
     flex-direction: column;
-    /* min-height: calc(100vh - 52px); */
     max-height: calc(100vh - 52px);
   }
   .left-section { flex: 3; }
@@ -38,9 +33,7 @@
 @media only screen and (min-width: 1088px) {
   .player-set-top {
     display: flex;
-    align-items: stretch;
     flex-direction: row;
-    /* min-height: calc(100vh - 52px); */
     max-height: calc(100vh - 52px);
   }
   .left-section { flex: 3; }

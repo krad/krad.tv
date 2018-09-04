@@ -19,10 +19,7 @@ class PlayerSetTop extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      broadcast: undefined,
-      loading: false,
-    }
+    this.state = { broadcast: undefined, loading: false, }
   }
 
   componentDidMount() {
@@ -35,7 +32,7 @@ class PlayerSetTop extends Component {
     })
   }
 
-  render() {    console.log(this.state.error);
+  render() {
     if (this.state.loading) {
       return <LoadingIndicator />
     }
@@ -52,6 +49,11 @@ class PlayerSetTop extends Component {
         <div className='player-set-top'>
           <div className='left-section'>
             <Video {...stream} />
+
+            <div className='section  is-hidden-touch'>
+              <h1 className='title'>{broadcast.title}</h1>
+            </div>
+
           </div>
 
           <div className='right-section'>

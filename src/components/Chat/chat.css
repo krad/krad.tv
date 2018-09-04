@@ -1,18 +1,32 @@
-.chat-box {
-  background: #fff;
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 52px);
-  max-height: calc(100vh - 52px);
-}
 
 @media only screen and (max-width: 768px) {
+  .chat-box {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(50vh - 52px);
+    max-height: calc(50vh - 52px);
+  }
 }
 
 @media only screen and (min-width: 769px) {
+  .chat-box {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(50vh - 52px);
+    max-height: calc(50vh - 52px);
+  }
 }
 
 @media only screen and (min-width: 1088px) {
+  .chat-box {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 52px);
+    max-height: calc(100vh - 52px);
+  }
 }
 
 .chat-header {

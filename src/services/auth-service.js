@@ -42,6 +42,37 @@ class AuthenticationService {
     })
   }
 
+  static updateProfile(name, password, passwordConfirmation) {
+    let self = this
+    return new Promise((resolve, reject) => {
+      let payload = {}
+      if (name)     { payload.name = name }
+      if (password) { payload.password = password }
+      if (passwordConfirmation) { payload.passwordConfirmation = passwordConfirmation }
+      client.post('/profile', payload).then(res => {
+        handleAuthSuccess(res, self, resolve)
+      }).catch(err => {
+        handleAuthFailure(err, self, reject)
+      })
+    })
+  }
+
+  static uploadAvatar(avatar, config) {
+    let self = this
+    return new Promise((resolve, reject) => {
+      client.post('/profile/avatar', avatar, config)
+      .then(res => {
+        self.user.profileImage = res.data.profileImage
+        window.localStorage.setItem('user', JSON.stringify(self.user))
+        observers.forEach(o => { o() })
+        resolve({profileImage: res.data.profileImage})
+      }).catch(err => {
+        observers.forEach(o => { o() })
+        reject(err)
+      })
+    })
+  }
+
   static logout() {
     return new Promise((resolve, reject) => {
       client.post('/logout', {})
