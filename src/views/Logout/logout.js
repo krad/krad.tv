@@ -5,14 +5,16 @@ import AuthenticationService from '../../services/auth-service'
 class Logout extends Component {
   constructor(props) {
     super(props)
-    this.state = {loading: true}
+    this.state = {}
   }
 
   componentDidMount() {
+    this.setState({loading: true})
     AuthenticationService.logout()
     .then(res => {
       this.props.history.push(res.url)
     }).catch(err => {
+      this.setState({loading: false})
       console.log(err);
     })
   }

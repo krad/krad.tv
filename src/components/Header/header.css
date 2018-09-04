@@ -1,0 +1,15 @@
+.rounded { border-radius: 50%; }
+.search-field { width: 100%; }
+.user-fullname { padding-bottom: 3px;}
+
+@media only screen and (max-width: 768px) {
+  .search-item { width: 60%; }
+}
+
+@media only screen and (min-width: 769px) {
+  .search-item { width: 60%; }
+}
+
+@media only screen and (min-width: 1088px) {
+  .search-item { width: 460px; }
+}

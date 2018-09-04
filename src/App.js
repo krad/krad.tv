@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+import AuthenticationService from './services/auth-service'
 import Header from './components/Header/header'
-
 import Home from './views/Home/home'
 import Broadcast from './views/Broadcast/broadcast'
 import Channel from './views/Channel/channel'
@@ -17,12 +17,14 @@ import './App.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUser, faKey, faCheck, faEnvelope, faExclamationTriangle,
-         faAddressCard, faCircle, faThumbsUp, faThumbsDown, faFlag, faUpload, faSync } from '@fortawesome/free-solid-svg-icons'
+         faAddressCard, faCircle, faThumbsUp, faThumbsDown, faFlag,
+         faUpload, faSync, faSearch } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
   faUser, faKey, faCheck, faEnvelope,
   faExclamationTriangle, faAddressCard,
-  faCircle, faThumbsUp, faThumbsDown, faFlag, faUpload, faSync
+  faCircle, faThumbsUp, faThumbsDown, faFlag,
+  faUpload, faSync, faSearch
 )
 
 
@@ -41,7 +43,7 @@ class App extends Component {
             <Route path='/login' component={Login} />
             <Route path='/logout' component={Logout} />
             <Route path='/signup' component={Signup} />
-            <Route path='/profile' component={ManageProfile} />
+            <AuthenticatedRoute path='/profile' component={ManageProfile} />
             <Route path='/forgot-password' component={ForgotPassword}/>
             <Route path='/help' component={Help} />
             <Route path='/tos' component={Terms} />
@@ -54,5 +56,13 @@ class App extends Component {
     );
   }
 }
+
+const AuthenticatedRoute = ({component: Component, ...rest}) => (
+  <Route {...rest} render={(props) => (
+    AuthenticationService.isLoggedIn === true ?
+    <Component {...props}/> :
+    <Redirect to={{pathname: '/login', state: { from: props.location } }} />
+  )} />
+)
 
 export default App;

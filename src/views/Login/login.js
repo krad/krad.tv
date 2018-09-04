@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom'
 import MiddleBox from '../../components/MiddleBox/middle-box'
 import { EmailInput, PasswordInput, validateEmail } from '../../components/AuthFields/auth-fields'
 import AuthenticationService from '../../services/auth-service'
@@ -39,7 +40,7 @@ class Login extends Component {
       const password = this.state.password
       AuthenticationService.login(email, password)
       .then(res => {
-        this.props.history.push(res.url)
+        this.setState({redirect: true, serverRedirect: res.url})
       }).catch(err => {
         this.setState({loading: false, error: err})
       })
@@ -47,6 +48,11 @@ class Login extends Component {
   }
 
   render() {
+    if (this.state.redirect) {
+      const { from } = this.props.location.state || { from: {pathname: this.state.serverRedirect}}
+      return <Redirect to={from} />
+    }
+
     return (
       <div>
       <MiddleBox title='Login'>

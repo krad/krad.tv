@@ -1,9 +1,18 @@
 import client from '../network/client'
 
-const AuthenticationService = {
-  isLoggedIn: false,
+let observers = []
 
-  login: (email, password) => {
+class AuthenticationService {
+
+  static get isLoggedIn() {
+    return (this.user !== undefined && this.user !== null)
+  }
+
+  static get user() {
+    return JSON.parse(window.localStorage.getItem('user'))
+  }
+
+  static login(email, password) {
     let self = this
     return new Promise((resolve, reject) => {
       client.post('/login', {email: email, password: password})
@@ -13,9 +22,9 @@ const AuthenticationService = {
         handleAuthFailure(err, self, reject)
       })
     })
-  },
+  }
 
-  signup: (email, username, password, passwordConfirmation) => {
+  static signup(email, username, password, passwordConfirmation) {
     let self = this
     return new Promise((resolve, reject) => {
       const payload = {
@@ -31,16 +40,14 @@ const AuthenticationService = {
         handleAuthFailure(err, self, reject)
       })
     })
-  },
+  }
 
-  logout: () => {
-    let self = this
+  static logout() {
     return new Promise((resolve, reject) => {
       client.post('/logout', {})
       .then(_ => {
-        self.isLoggedIn = false
-        self.user       = undefined
         window.localStorage.removeItem('user')
+        observers.forEach(o => { o() })
         resolve({url: '/'})
       }).catch(err => {
         reject(err)
@@ -48,14 +55,21 @@ const AuthenticationService = {
     })
   }
 
+  static addObserver(observer) {
+    observers.push(observer)
+  }
+
+  static removeObserver(observer) {
+    console.log('remove observer', observer);
+  }
 }
+
 
 const handleAuthSuccess = (res, self, resolve) => {
   const user       = res.data
   const userString = JSON.stringify(user)
   window.localStorage.setItem('user', userString)
-  self.isLoggedIn  = true
-  self.user        = user
+  observers.forEach(o => { o() })
   resolve({user: self.user, url: res.headers.location})
 }
 
@@ -63,8 +77,8 @@ const handleAuthFailure = (err, self, reject) => {
   let msg
   if (err.data && err.data.error) { msg = err.data.error }
   else { msg = 'Something went wrong '}
-  self.user       = undefined
-  self.isLoggedIn = false
+  window.localStorage.removeItem('user')
+  observers.forEach(o => { o() })
   reject(msg)
 }
 
