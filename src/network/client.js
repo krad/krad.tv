@@ -9,7 +9,7 @@ const client = axios.create({
     try {
       return JSON.parse(data)
     } catch (e) {
-      return undefined
+      return data
     }
   }
 })

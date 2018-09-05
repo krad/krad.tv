@@ -23,6 +23,9 @@ class PlayerSetTop extends Component {
   }
 
   componentDidMount() {
+    document.body.classList.remove('has-navbar-fixed-top')
+    document.getElementsByTagName('nav')[0].classList.remove('is-fixed-top')
+
     this.setState({loading: true})
     client.get('/broadcasts/'+this.props.broadcastId)
     .then(res => {
@@ -30,6 +33,11 @@ class PlayerSetTop extends Component {
     }).catch(err => {
       this.setState({loading: false, error: err})
     })
+  }
+
+  componentWillUnmount() {
+    document.body.classList.add('has-navbar-fixed-top')
+    document.getElementsByTagName('nav')[0].classList.add('is-fixed-top')
   }
 
   render() {
@@ -49,11 +57,6 @@ class PlayerSetTop extends Component {
         <div className='player-set-top'>
           <div className='left-section'>
             <Video {...stream} />
-
-            <div className='section  is-hidden-touch'>
-              <h1 className='title'>{broadcast.title}</h1>
-            </div>
-
           </div>
 
           <div className='right-section'>

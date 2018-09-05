@@ -9,7 +9,7 @@ import moment from 'moment'
 import './home.css'
 
 
-export default class Home extends Component {
+class Home extends Component {
 
   constructor(props) {
     super(props)
@@ -177,3 +177,6 @@ function BroadcastStats(props) {
     <span className='subtitle is-7'>{stats}</span>
   )
 }
+
+export default Home
+export { BroadcastList }

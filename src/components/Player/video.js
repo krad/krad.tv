@@ -144,6 +144,7 @@ class Player extends Component {
         <Video
           ref={(child) => {this._child = child}}
           url={this.props.url}
+          codecs={this.props.codecs}
           onCanPlay={this.handleCanPlay}
           onPlayProgress={this.handlePlayProgress}
           onDownloadProgress={this.handleDownloadProgress}
@@ -171,7 +172,7 @@ class Video extends Component {
 
   constructor(props) {
     super(props)
-    this.plainview                    = new plainview(props.url)
+    this.plainview                    = new plainview(props.url, props.codecs)
     this.plainview.logLevel           = 5
     this.plainview.onCanPlay          = props.onCanPlay
     this.plainview.onPlayProgress     = props.onPlayProgress

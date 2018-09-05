@@ -1,0 +1,7 @@
+.user-top-info p {
+  margin: 0 !important;
+}
+
+.user-top-info p:last-child {
+  margin-top: 1.2em !important;
+}
