@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
 import AuthenticationService from '../../services/auth-service'
+import client from '../../network/client'
+import ErrorMessage from '../../views/Error/error'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './header.css'
 
@@ -76,22 +79,71 @@ const burgerMenuClass = (props) => {
   return 'navbar-burger'
 }
 
-function SearchSection(props) {
-  return (
-    <div className='navbar-item search-item'>
-      <div className='field has-addons search-field'>
-        <div className='control has-icons-left is-expanded'>
-          <input type='text' className='input is-small' placeholder='' />
-          <span className='icon is-small is-left'>
-            <FontAwesomeIcon icon='search' />
-          </span>
+class SearchSection extends Component {
+  constructor(props) {
+    super(props)
+    this.state        = {loading: false, error: undefined, query: ''}
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  handleChange(e) {
+    this.setState({query: e.target.value})
+  }
+
+  handleSubmit(e) {
+    e.preventDefault()
+    this.setState({loading: true})
+    client.post('/search', {query: this.state.query})
+    .then(res => {
+      this.setState({loading: false, results: res.data})
+    }).catch(err => {
+      this.setState({loading: false, error: err})
+    })
+  }
+
+  render() {
+    if (this.state.error) {
+      return <ErrorMessage />
+    }
+
+    if (this.state.results) {
+      console.log('redirect call');
+      return <Redirect to={{pathname: '/search', state: { searchResults: this.state.results } }} />
+    }
+
+    return (
+      <div className='navbar-item search-item'>
+        <form onSubmit={this.handleSubmit} className='search-field'>
+        <div className='field has-addons'>
+          <div className='control has-icons-left is-expanded'>
+            <input type='text'
+              className='input is-small'
+              placeholder=''
+              value={this.state.query}
+              onChange={this.handleChange}
+            />
+
+            <span className='icon is-small is-left'>
+              <FontAwesomeIcon icon='search' />
+            </span>
+          </div>
+
+          <div className='control'>
+            <a className={searchButtonClass(this.state)} onClick={this.handleSubmit}>Search</a>
+          </div>
         </div>
-        <div className='control'>
-          <a className='button is-small'>Search</a>
-        </div>
+        </form>
       </div>
-    </div>
-  )
+    )
+  }
+}
+
+const searchButtonClass = (props) => {
+  if (props.loading) {
+    return 'button is-small is-loading'
+  }
+  return 'button is-small'
 }
 
 function NavbarMenu(props) {

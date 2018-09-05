@@ -11,6 +11,7 @@ import Signup from './views/Signup/signup'
 import ForgotPassword from './views/ForgotPassword/forgot-password'
 import ManageProfile from './views/ManageProfile/manage-profile'
 import Submission from './views/Submission/submission'
+import SearchResults from './views/Search/search'
 import Contact from './views/Contact/contact'
 import Help from './views/Help/help'
 import './App.css';
@@ -31,10 +32,9 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Header />
-        <main>
         <Router>
-          <Switch>
+        <div>
+          <Header />
             <Route exact path ='/' component={Home} />
             <Route exact path='/watch/:broadcastId' component={Broadcast} />
             <Route exact path='/watch/:broadcastId/room/:roomId' component={Broadcast} />
@@ -47,10 +47,10 @@ class App extends Component {
             <AuthenticatedRoute path='/submit' component={Submission} />
             <Route exact path='/help' component={Help} />
             <Route exact path='/help/:article' component={Help} />
-            <Route exect path='/contact' component={Contact} />
-          </Switch>
+            <Route exact path='/contact' component={Contact} />
+            <Route exact path='/search' component={SearchResults} />
+          </div>
         </Router>
-        </main>
       </div>
     );
   }
