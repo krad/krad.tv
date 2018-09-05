@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BroadcastList } from '../Home/home'
 import LoadingIndicator from '../../components/Loaders/bubbles'
 import ErrorMessage from '../Error/error'
 import client from '../../network/client'
@@ -31,7 +32,12 @@ class ChannelPage extends Component {
   render() {
     if (this.state.loading) { return <LoadingIndicator /> }
     if (this.state.user) {
-      return(<div><Hero {...this.state.user} /></div>)
+      return(
+        <div>
+          <Hero {...this.state.user} />
+          <BroadcastList broadcasts={this.state.user.broadcasts} />
+        </div>
+      )
     } else {
       return(<div></div>)
     }
