@@ -4,13 +4,6 @@ import { UsernameField, EmailInput, PasswordInput, validateEmail } from '../../c
 import AuthenticationService from '../../services/auth-service'
 import './signup.css'
 
-// const responseInterceptor = (response) => {
-//   return Promise.resolve(response)
-// }
-// const errorInterceptor = (error) => Promise.reject(error.response)
-// instance.interceptors.response.use(responseInterceptor, errorInterceptor)
-
-
 class Signup extends Component {
   constructor(props) {
     super(props)

@@ -1,15 +1,6 @@
 import React, {Component} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from 'axios'
-
-const instance = axios.create({
-  baseURL: process.env.REACT_APP_KRAD_API_BASE_PATH,
-  timeout: 2000
-})
-
-const responseInterceptor = (response) => response
-const errorInterceptor = (error) => Promise.reject(error.response)
-instance.interceptors.response.use(responseInterceptor, errorInterceptor)
+import client from '../../network/client'
 
 class UsernameField extends Component {
   constructor(props) {
@@ -25,10 +16,14 @@ class UsernameField extends Component {
 
     if (e.target.value !== '') {
       this.setState({loading: true})
-      instance.post('/username', payload).then(res => {
+      client.post('/username', payload).then(res => {
         this.setState({loading: false, error: undefined, ready: true})
       }).catch(err => {
-        this.setState({loading: false, error: err.data.error, ready: false})
+        let e
+        if (err.data) { e = err.data.error }
+        else { e = 'Something went wrong...'}
+
+        this.setState({loading: false, error: e, ready: false})
       })
     } else {
       this.setState({ready: false})
