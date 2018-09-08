@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BroadcastList } from '../Home/home'
 import LoadingIndicator from '../../components/Loaders/bubbles'
-import ErrorMessage from '../Error/error'
+// import ErrorMessage from '../Error/error'
 import client from '../../network/client'
 
 import './channel.css'

@@ -172,8 +172,8 @@ class Video extends Component {
 
   constructor(props) {
     super(props)
-    this.plainview                    = new plainview(props.url, props.codecs)
-    this.plainview.logLevel           = 5
+    this.plainview                    = new plainview(props)
+    this.plainview.logLevel           = 6
     this.plainview.onCanPlay          = props.onCanPlay
     this.plainview.onPlayProgress     = props.onPlayProgress
     this.plainview.onDownloadProgress = props.onDownloadProgress
