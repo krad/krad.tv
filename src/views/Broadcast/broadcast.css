@@ -3,38 +3,23 @@
   object-fit: fill;
 }
 
-.broadcast-page {
-  min-height: calc(100vh - 52px);
-  max-height: calc(100vh - 52px);
+.player-set-top {
+  display: flex;
+  flex-direction: row;
+  /* min-height: calc(100vh - 52px);
+  max-height: calc(100vh - 52px); */
 }
 
 @media only screen and (max-width: 768px) {
-  .player-set-top {
-    display: flex;
-    flex-direction: column;
-    max-height: calc(100vh - 52px);
- }
-
-  .left-section { flex: 2; }
-  .right-section { flex: 1; }
+  .player-set-top { flex-direction: column; }
 }
 
 @media only screen and (min-width: 769px) {
-  .player-set-top {
-    display: flex;
-    flex-direction: column;
-    max-height: calc(100vh - 52px);
-  }
-  .left-section { flex: 3; }
-  .right-section { flex: 1; }
+  .player-set-top { flex-direction: column; }
+  .player-section { flex: 0; }
 }
 
 @media only screen and (min-width: 1088px) {
-  .player-set-top {
-    display: flex;
-    flex-direction: row;
-    max-height: calc(100vh - 52px);
-  }
-  .left-section { flex: 3; }
-  .right-section { flex: 1;}
+  .player-set-top { flex-direction: row; }
+  .player-section { flex: 3; }
 }

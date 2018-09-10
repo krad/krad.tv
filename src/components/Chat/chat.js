@@ -72,7 +72,6 @@ class ChatBox extends Component {
 
   }
 
-
   render() {
     return (
       <div className='chat-box'>
@@ -101,8 +100,9 @@ function MessagesBox(props) {
 }
 
 function Messages(props) {
-  const messages = props.messages.map((m, idx) => (<li key={idx}><Message {...m} /></li>))
-  return (<ul className='chat-messages-list'>{messages}</ul>)
+  const messages    = props.messages.map((m, idx) => (<li key={idx}><Message {...m} /></li>))
+  const messageList = (<ul className='chat-messages-list'>{messages}</ul>)
+  return messageList
 }
 
 function Message(props) {

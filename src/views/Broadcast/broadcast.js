@@ -19,7 +19,10 @@ class PlayerSetTop extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { broadcast: undefined, loading: false, }
+    this.state = {
+      broadcast: undefined,
+      loading: false,
+    }
   }
 
   componentDidMount() {
@@ -54,14 +57,12 @@ class PlayerSetTop extends Component {
       const stream    = broadcast.stream
 
       return (
-        <div className='player-set-top'>
-          <div className='left-section'>
+        <div className='player-set-top' style={{maxHeight: `${window.innerHeight-52}px`, minHeight: `${window.innerHeight-52}px`}}>
+          <div className='player-section'>
             <Video {...stream} />
           </div>
 
-          <div className='right-section'>
-            <BroadcastInfo {...this.props} {...broadcast} />
-          </div>
+          <BroadcastInfo {...this.props} {...broadcast} />
         </div>
       )
     }
