@@ -58,23 +58,11 @@ class Signup extends Component {
     return (
       <div>
       <MiddleBox title='Signup'>
-        <SignupForm onSubmit={this.handleSubmit}>
-          <EmailInput onChange={this.handleChange} value={this.state.email} />
-          <UsernameField name='Username' onChange={this.handleChange} value={this.state.username} />
-          <PasswordInput onChange={this.handleChange} value={this.state.password}/>
-          <PasswordInput
-            onChange={this.handleChange}
-            value={this.state.passwordConfirm}
-            label="Confirm Password"
-            name="passwordConfirm"/>
-          <button
-            type='submit'
-            className={loadingClass(this.state.loading)}
-            disabled={!this.state.ready}>
-            Signup
-          </button>
-          <p className='help is-danger has-text-centered'>{this.state.error}</p>
-        </SignupForm>
+        <SignupForm
+          onSubmit={this.handleSubmit}
+          onChange={this.handleChange}
+          {...this.state}
+       />
       </MiddleBox>
       <HelperLiks />
       </div>
@@ -100,7 +88,7 @@ function HelperLiks(props){
     </p>)
 }
 
-function SignupForm(props) {
+function Form(props) {
   return (
     <form className='signup' action='/signup' onSubmit={props.onSubmit}>
       {props.children}
@@ -108,4 +96,27 @@ function SignupForm(props) {
   )
 }
 
+function SignupForm(props) {
+  return (
+    <Form onSubmit={props.onSubmit}>
+      <EmailInput onChange={props.onChange} value={props.email} />
+      <UsernameField name='Username' onChange={props.onChange} value={props.username} />
+      <PasswordInput onChange={props.onChange} value={props.password}/>
+      <PasswordInput
+        onChange={props.onChange}
+        value={props.passwordConfirm}
+        label="Confirm Password"
+        name="passwordConfirm"/>
+      <button
+        type='submit'
+        className={loadingClass(props.loading)}
+        disabled={!props.ready}>
+        Signup
+      </button>
+      <p className='help is-danger has-text-centered'>{props.error}</p>
+    </Form>
+  )
+}
+
 export default Signup
+export { SignupForm }

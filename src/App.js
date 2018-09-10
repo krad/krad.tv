@@ -8,6 +8,7 @@ import Channel from './views/Channel/channel'
 import Login from './views/Login/login'
 import Logout from './views/Logout/logout'
 import Signup from './views/Signup/signup'
+import AuthenticationModal from './views/AuthModal/auth-modal'
 import ForgotPassword from './views/ForgotPassword/forgot-password'
 import ManageProfile from './views/ManageProfile/manage-profile'
 import Submission from './views/Submission/submission'
@@ -49,6 +50,7 @@ class App extends Component {
             <Route exact path='/help/:article' component={Help} />
             <Route exact path='/contact' component={Contact} />
             <Route exact path='/search' component={SearchResults} />
+            <AuthenticationModal />
           </div>
         </Router>
       </div>

@@ -56,24 +56,16 @@ class Login extends Component {
     return (
       <div>
       <MiddleBox title='Login'>
-        <LoginForm onSubmit={this.handleSubmit}>
-          <EmailInput onChange={this.handleChange} value={this.state.email} />
-          <PasswordInput onChange={this.handleChange} value={this.state.password}/>
-          <button
-            type='submit'
-            className={loadingClass(this.state.loading)}
-            disabled={!this.state.ready}>
-            Login
-          </button>
-          <p className='help is-danger has-text-centered'>{this.state.error}</p>
-        </LoginForm>
+        <LoginForm
+          onSubmit={this.handleSubmit}
+          onChange={this.handleChange}
+          {...this.state} />
       </MiddleBox>
       <HelperLiks />
       </div>
     )
   }
 }
-
 
 const loadingClass = (loading) => {
   if (loading) {
@@ -92,7 +84,7 @@ function HelperLiks(props){
     </p>)
 }
 
-function LoginForm(props) {
+function Form(props) {
   return (
     <form className='login' action='/login' onSubmit={props.onSubmit}>
       {props.children}
@@ -100,4 +92,21 @@ function LoginForm(props) {
   )
 }
 
+function LoginForm(props) {
+  return (
+    <Form onSubmit={props.onSubmit}>
+      <EmailInput onChange={props.onChange} value={props.email} />
+      <PasswordInput onChange={props.onChange} value={props.password}/>
+      <button
+        type='submit'
+        className={loadingClass(props.loading)}
+        disabled={!props.ready}>
+        Login
+      </button>
+      <p className='help is-danger has-text-centered'>{props.error}</p>
+    </Form>
+  )
+}
+
 export default Login
+export { LoginForm }
