@@ -173,24 +173,42 @@ function LoggedOutChatControls(props) {
 }
 
 function LoggedOutLeftControls(props) {
-  let tsLabel = props.showTimestamps ? 'Hide timestamps' : 'Show timestamps'
-
   return (
     <div className='controls-left'>
+      <DropDown {...props} />
+    </div>
+  )
+}
 
-      <div className='dropdown is-up is-hoverable'>
-        <div className='dropdown-trigger'>
-          <button className='button is-text'>
-            <FontAwesomeIcon icon='cog'/>
-          </button>
-        </div>
-        <div className='dropdown-menu'>
-          <div className='dropdown-content'>
-            <a className='dropdown-item' onClick={props.onOption} name='login'>Login</a>
-            <a className='dropdown-item' onClick={props.onOption} name='timestamps'>{tsLabel}</a>
-          </div>
-        </div>
+function DropDown(props) {
 
+  const buttonClass = props.bordered ? 'button is-small' : 'button is-text'
+
+  return (
+    <div className='dropdown is-up is-hoverable'>
+      <div className='dropdown-trigger'>
+        <button className={buttonClass}>
+          <FontAwesomeIcon icon='cog'/>
+        </button>
+      </div>
+      <DropDownMenu {...props} />
+    </div>
+  )
+}
+
+function DropDownMenu(props) {
+  const tsLabel = props.showTimestamps ? 'Hide timestamps' : 'Show timestamps'
+
+  let items = []
+  items.push(<a className='dropdown-item' key='timestamps' onClick={props.onOption} name='timestamps'>{tsLabel}</a>)
+  if (!props.user) {
+    items.push(<a className='dropdown-item' key='login' onClick={props.onOption} name='login'>Login</a>)
+  }
+
+  return (
+    <div className='dropdown-menu'>
+      <div className='dropdown-content'>
+        {items}
       </div>
     </div>
   )
@@ -207,6 +225,10 @@ function LoggedOutRightControls(props) {
 function LoggedInChatControls(props) {
   return (
     <div className='control field has-addons chat-submit'>
+      <div className='control'>
+        <DropDown bordered={true} {...props} />
+      </div>
+
         <div className='control is-expanded'>
           <input
             className='input is-small'

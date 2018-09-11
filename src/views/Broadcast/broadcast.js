@@ -23,6 +23,9 @@ class PlayerSetTop extends Component {
       broadcast: undefined,
       loading: false,
     }
+
+    this.handleWindowResize = this.handleWindowResize.bind(this)
+    window.addEventListener('resize', this.handleWindowResize)
   }
 
   componentDidMount() {
@@ -41,6 +44,11 @@ class PlayerSetTop extends Component {
   componentWillUnmount() {
     document.body.classList.add('has-navbar-fixed-top')
     document.getElementsByTagName('nav')[0].classList.add('is-fixed-top')
+  }
+
+  handleWindowResize() {
+    /// Here to ensure that flex ALWAYS extends
+    this.setState({resize: Date.now()})
   }
 
   render() {
