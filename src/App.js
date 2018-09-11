@@ -8,8 +8,8 @@ import Channel from './views/Channel/channel'
 import Login from './views/Login/login'
 import Logout from './views/Logout/logout'
 import Signup from './views/Signup/signup'
-import AuthenticationModal from './views/AuthModal/auth-modal'
 import ForgotPassword from './views/ForgotPassword/forgot-password'
+import AuthenticationModal from './views/AuthModal/auth-modal'
 import ManageProfile from './views/ManageProfile/manage-profile'
 import Submission from './views/Submission/submission'
 import SearchResults from './views/Search/search'
@@ -20,13 +20,13 @@ import './App.css';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUser, faKey, faCheck, faEnvelope, faExclamationTriangle,
          faAddressCard, faCircle, faThumbsUp, faThumbsDown, faFlag,
-         faUpload, faSync, faSearch } from '@fortawesome/free-solid-svg-icons'
+         faUpload, faSync, faSearch, faCog } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
   faUser, faKey, faCheck, faEnvelope,
   faExclamationTriangle, faAddressCard,
   faCircle, faThumbsUp, faThumbsDown, faFlag,
-  faUpload, faSync, faSearch
+  faUpload, faSync, faSearch, faCog
 )
 
 class App extends Component {

@@ -49,8 +49,17 @@ class Login extends Component {
 
   render() {
     if (this.state.redirect) {
-      const { from } = this.props.location.state || { from: {pathname: this.state.serverRedirect}}
-      return <Redirect to={from} />
+      if (this.props.loginCallback) {
+        this.props.loginCallback()
+        return <div />
+      } else {
+        const { from } = this.props.location.state || { from: {pathname: this.state.serverRedirect}}
+        return <Redirect to={from} />
+      }
+    }
+
+    if (this.props.compact) {
+      return <LoginForm onSubmit={this.handleSubmit} onChange={this.handleChange} {...this.state} />
     }
 
     return (
@@ -109,4 +118,3 @@ function LoginForm(props) {
 }
 
 export default Login
-export { LoginForm }

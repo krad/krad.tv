@@ -47,7 +47,11 @@ class Signup extends Component {
 
       AuthenticationService.signup(email, username, password, passwordConfirm)
       .then(res => {
-        this.props.history.push(res.url)
+        if (this.props.signupCallback) {
+          this.props.signupCallback()
+        } else {
+          this.props.history.push(res.url)
+        }
       }).catch(err => {
         this.setState({loading: false, error: err, ready: false})
       })
@@ -55,6 +59,11 @@ class Signup extends Component {
   }
 
   render() {
+
+    if (this.props.compact) {
+      return <SignupForm onSubmit={this.handleSubmit} onChange={this.handleChange} {...this.state} />
+    }
+
     return (
       <div>
       <MiddleBox title='Signup'>

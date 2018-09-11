@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { LoginForm } from '../Login/login'
-import { SignupForm } from '../Signup/signup'
+import Login from '../Login/login'
+import Signup from '../Signup/signup'
 import './auth-modal.css'
 
 class AuthenticationModal extends Component {
@@ -13,6 +13,10 @@ class AuthenticationModal extends Component {
 
     this.handleClose  = this.handleClose.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
+
+    document.addEventListener('showAuthModal', () => {
+      this.setState({isActive: true})
+    })
   }
 
   handleClose() {
@@ -24,15 +28,19 @@ class AuthenticationModal extends Component {
   }
 
   render() {
-
     let title
     let body
+
+    const authCallback = () => {
+      if (this.state.isActive) { this.setState({isActive: false}) }
+    }
+
     if (this.state.form === 'login') {
       title = 'Login to Continue'
-      body  = <LoginForm />
+      body  = <Login compact={true} loginCallback={authCallback} />
     } else {
       title = 'Signup to Continue'
-      body = <SignupForm />
+      body = <Signup compact={true} signupCallback={authCallback} />
     }
 
     return (
